@@ -1,5 +1,4 @@
-/*
-KISSY CSS Reset
+/* KISSY CSS Reset
 理念：清除和重置是紧密不可分的
 特色：1.适应中文 2.基于最新主流浏览器
 维护：玉伯(lifesinger@gmail.com), 正淳(ragecarrier@gmail.com)
@@ -18,17 +17,13 @@ th, td { /* table elements 表格元素 */
 /* 设置默认字体 */
 body,
 button, input, select, textarea { /* for ie */
-    /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
-    font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+    font: 14px/1.5 "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
-body {
-	font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-	font-size: 16px;
-}
-h1 { font-size: 18px; /* 18px / 12px = 1.5 */ }
-h2 { font-size: 16px; }
-h3 { font-size: 14px; }
-h4, h5, h6 { font-size: 100%; }
+h1 { font-size: 24px; }
+h2 { font-size: 22px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5, h6 { font-size: 16px; }
 
 address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
 code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
@@ -38,7 +33,7 @@ small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正�
 ul, ol { list-style: none; }
 
 /* 重置文本格式元素 */
-a { text-decoration: none;color: #111;}
+a { text-decoration: none; color: #1a73e8; }
 a:hover { text-decoration: underline; }
 
 abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
@@ -66,7 +61,53 @@ table {
 hr {
     border: none;
     height: 1px;
+    background-color: #ccc;
 }
 
 /* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
 html { overflow-y: scroll; }
+
+/* 自定义样式 */
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+p, blockquote, pre {
+    margin-bottom: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.5em;
+}
+
+ul, ol {
+    padding-left: 2em;
+    margin-bottom: 1em;
+}
+
+li {
+    margin-bottom: 0.5em;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+}
+
+button, input, select, textarea {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+}
+
+button:hover {
+    background-color: #1a73e8;
+    color: #fff;
+}
