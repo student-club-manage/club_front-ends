@@ -88,7 +88,7 @@ export default {
   width: 120px;
   margin: 0 auto;
   font-size: 24px;
-  color: #9a0e14;
+  color: #1f51ff;
   margin-bottom: 15px;
 }
 .file-list li {

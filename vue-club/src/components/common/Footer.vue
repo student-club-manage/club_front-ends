@@ -13,7 +13,7 @@ export default {}
 
 <style scoped="scoped">
 .footer-wrap {
-  background-color: #9a0e14;
+  background-color: #1f51ff;
   position: fixed;
   left: 0;
   right: 0;

@@ -7,7 +7,8 @@
 				>
 				<span>社团风采</span>
 				>
-				<router-link :to="{ name: 'ActivityList', query: { typeId: activityPageVo.activityType.id } }" class="activity-title" v-if="activityPageVo.activityType != null">
+				<router-link :to="{ name: 'ActivityList', query: { typeId: activityPageVo.activityType.id } }"
+					class="activity-title" v-if="activityPageVo.activityType != null">
 					{{ activityPageVo.activityType.type }}
 				</router-link>
 			</div>
@@ -17,27 +18,22 @@
 			<el-main v-if="activityPageVo != null">
 				<div class="activity-title-wrap">
 					<el-row>
-						<span class="activity-title" v-if="activityPageVo.activityType != null">{{ activityPageVo.activityType.type }}</span>
+						<span class="activity-title" v-if="activityPageVo.activityType != null">{{ activityPageVo.activityType.type
+						}}</span>
 					</el-row>
 				</div>
 				<v-hr />
 				<ul class="activity-list" v-if="activityPageVo.activityPageInfo != null">
-					<li v-for="activity in activityPageVo.activityPageInfo.list">
+					<li v-for="activity in activityPageVo.activityPageInfo.list" class="section_10 change" :key="activity.id">
 						<router-link :to="{ name: 'Activity', params: { id: activity.id } }">{{ activity.activityName }}</router-link>
 						<span>{{ activity.publishTime }}</span>
 					</li>
 				</ul>
 			</el-main>
 		</el-container>
-		<el-pagination
-			v-if="activityPageVo.activityPageInfo != null"
-			background
-			layout="prev, pager, next"
-			:current-page.sync="currentPage"
-			:total="activityPageVo.activityPageInfo.total"
-			@current-change="refreshActivityPage"
-			:page-size="activityPageVo.activityPageInfo.pageSize"
-		></el-pagination>
+		<el-pagination v-if="activityPageVo.activityPageInfo != null" background layout="prev, pager, next"
+			:current-page.sync="currentPage" :total="activityPageVo.activityPageInfo.total"
+			@current-change="refreshActivityPage" :page-size="activityPageVo.activityPageInfo.pageSize"></el-pagination>
 	</el-container>
 </template>
 
@@ -54,7 +50,7 @@ export default {
 	},
 	components: { activityTypeList, 'v-hr': Hr },
 	methods: {
-		getActivityPage: function(pageNum, pageSize) {
+		getActivityPage: function (pageNum, pageSize) {
 			var typeId = this.$route.query.typeId;
 			this.$axios
 				.get('/api/activities', {
@@ -72,7 +68,7 @@ export default {
 					}
 				});
 		},
-		refreshActivityPage: function() {
+		refreshActivityPage: function () {
 			this.getActivityPage(this.currentPage, 8);
 		}
 	},
@@ -88,24 +84,43 @@ export default {
 </script>
 
 <style scoped="scoped">
+.section_10 {
+	/* padding: 22px 15px 22px 15.5px; */
+	/* background-color: #ffffff; */
+	box-shadow: 0px -1px 0px #00000026 inset;
+	position: relative;
+	transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.change:hover {
+	transform: translateX(15px);
+	cursor: pointer;
+	/* background: #2851e3; */
+	border: 1px #2851e3 solid;
+	border-radius: 10px;
+}
+
 .site-nav {
 	float: left;
 	height: 70px;
 	line-height: 70px;
 	font-size: 20px;
 }
+
 .activity-title-wrap .activity-title {
 	display: block;
 	width: 160px;
 	font-size: 24px;
-	color: #9a0e14;
+	color: #1F51FF;
 	margin-bottom: 15px;
 }
+
 .activity-list li {
 	height: 32px;
 	line-height: 32px;
 }
-.activity-list li > a {
+
+.activity-list li>a {
 	display: inline-block;
 	width: 270px;
 	height: 32px;
@@ -121,8 +136,9 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
-	.el-header, .el-aside {
+
+	.el-header,
+	.el-aside {
 		display: none;
 	}
-}
-</style>
+}</style>
