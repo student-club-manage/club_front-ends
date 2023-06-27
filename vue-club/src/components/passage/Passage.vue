@@ -14,7 +14,7 @@
         :alt="file.fileName"
         v-if="isImage(file.fileName)"
       />
-      <a :href="'/fileServer' + file.filePath" v-else>{{ file.fileName }}</a>
+      <a :href="'http://192.168.43.162:8013/fileServer' + file.filePath" v-else>{{ file.fileName }}</a>
     </div>
 
     <Share />

@@ -8,16 +8,15 @@
 				<span class="large_type">资料下载</span>
 			</div>
 		</el-header>
-	
+
 		<el-container>
 				<ul class="file-list">
 					<li v-for="file in files" :key="file.id">
-						<a :href="'/fileServer/'+file.filePath">{{ file.fileName }}</a>
+						<a :href="'http://192.168.43.162:8013/fileServer/'+file.filePath">{{ file.fileName }}</a>
 						<!-- <router-link :to="{name:'files',params:{id:file.id}}">{{file.fileName}}</router-link> -->
 						<span>{{ file.createTime }}</span>
 					</li>
 				</ul>
-			</el-main>
 		</el-container>
 		<el-pagination
 			v-if="filePageVo != null"
@@ -29,7 +28,7 @@
 			:page-size="filePageVo.pageSize"
 		></el-pagination>
 	</el-container>
-	
+
 </template>
 
 <script>

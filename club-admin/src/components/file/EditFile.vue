@@ -1,7 +1,7 @@
 <template>
 	<el-form class="" :model="file" label-width="80px">
 		<el-form-item label="文件名称"><el-input v-model="file.fileName" disabled></el-input></el-form-item>
-		<el-form-item label="下载文件"><a :href="'/fileServer/'+file.filePath">下载</a></el-input></el-form-item>
+		<el-form-item label="下载文件"><a :href="'http://192.168.43.162:8013/fileServer/'+file.filePath">下载</a></el-input></el-form-item>
 		<el-form-item label="文件类型" >
 			<el-select  v-model="file.fileTypeId" placeholder="请选择文件类型">
 				<el-option v-for="fileType in fileTypeList"  :key="fileType.id" :label="fileType.type" :value="fileType.id"></el-option>
