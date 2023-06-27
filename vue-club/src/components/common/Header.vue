@@ -213,7 +213,6 @@ export default {
 .phone-nav {
   display: none;
 }
-
 .header {
   width: 1024px;
   height: 70px;
