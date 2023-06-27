@@ -23,7 +23,7 @@
 				</div>
 				<v-hr />
 				<ul class="news-list" v-if="newsPageVo.passagePageInfo != null">
-					<li v-for="news in newsPageVo.passagePageInfo.list">
+					<li v-for="news in newsPageVo.passagePageInfo.list" :key="news.id" class="section_10 change">
 						<!-- <div> -->
 						<router-link :to="{ name: 'Passage', params: { id: news.id } }" :key="news.id">{{ news.title }}</router-link>
 						<span class="time">{{ news.publishTime }}</span>
@@ -94,6 +94,20 @@ export default {
 </script>
 
 <style scoped="scoped">
+.section_10 {
+  /* padding: 22px 15px 22px 15.5px; */
+  /* background-color: #ffffff; */
+  box-shadow: 0px -1px 0px #00000026 inset;
+  position: relative;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.change:hover {
+  transform: translateX(15px);
+  cursor: pointer;
+  /* background: #2851e3; */
+    border:1px #2851e3 solid;
+  border-radius: 10px;
+}
 .site-nav {
 	float: left;
 	height: 70px;
@@ -107,7 +121,7 @@ export default {
 	display: block;
 	width: 120px;
 	font-size: 24px;
-	color: #9a0e14;
+	color: #1F51FF;
 	margin-bottom: 15px;
 }
 .news-list li {

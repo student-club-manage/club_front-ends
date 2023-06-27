@@ -1,5 +1,5 @@
 <template>
-	<el-menu default-active="activeIndex"  active-text-color="#9a0e14" text-color="#000">
+	<el-menu default-active="activeIndex"  active-text-color="#1F51FF" text-color="#000">
 		<el-menu-item v-for="(newsType, index) in newsTypeList" :key="index">
 			<span slot="title">
 				<router-link :to="{ name: 'PassageList', query: { passageTypeId: newsType.id } }">{{ newsType.type }}</router-link>
@@ -43,6 +43,6 @@ export default {
 .router-link-exact-active.router-link-active{
 		font-size: 120%;
 		font-weight: 900;
-		color: #9a0e14;
+		color: #1F51FF;
 	}
 </style>

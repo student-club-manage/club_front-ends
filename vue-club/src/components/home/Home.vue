@@ -6,21 +6,13 @@
         <div class="" v-if="topNoticesVo != null">
           <div class="news-title-wrap" v-if="topNoticesVo.passageType != null">
             <span class="news-title">{{ topNoticesVo.passageType.type }}</span>
-            <router-link
-              :to="{ name: 'PassageList', query: { passageTypeId: 1 } }"
-              class="more"
-              tag="span"
-              >更多>></router-link
-            >
+            <router-link :to="{ name: 'PassageList', query: { passageTypeId: 1 } }" class="more view-PpVUiiue"
+              tag="span">更多>></router-link>
           </div>
           <ul class="news-list">
             <li v-for="notice in topNoticesVo.passageList" :key="notice.id">
-              <div>
-                <router-link
-                  :to="{ name: 'Passage', params: { id: notice.id } }"
-                  tag="a"
-                  >{{ notice.title }}</router-link
-                >
+              <div class="section_10 change">
+                <router-link :to="{ name: 'Passage', params: { id: notice.id } }" tag="a">{{ notice.title }}</router-link>
                 <span class="time">{{ notice.publishTime }}</span>
               </div>
             </li>
@@ -31,26 +23,16 @@
         <div class="grid-content bg-purple" v-if="topNoticesVo != null">
           <div class="news-title-wrap">
             <el-row v-if="topNewsListVo.passageType != null">
-              <span
-                class="news-title"
-                v-if="topNewsListVo.passageType != null"
-                >{{ topNewsListVo.passageType.type }}</span
-              >
-              <router-link
-                :to="{ name: 'PassageList', query: { passageTypeId: 2 } }"
-                class="more"
-                tag="span"
-                >更多>></router-link
-              >
+              <span class="news-title" v-if="topNewsListVo.passageType != null">{{ topNewsListVo.passageType.type
+              }}</span>
+              <router-link :to="{ name: 'PassageList', query: { passageTypeId: 2 } }" class="more  view-PpVUiiue"
+                tag="span">更多>></router-link>
             </el-row>
           </div>
           <ul class="news-list">
             <li v-for="news in topNewsListVo.passageList" :key="news.id">
-              <el-row>
-                <router-link
-                  :to="{ name: 'Passage', params: { id: news.id } }"
-                  >{{ news.title }}</router-link
-                >
+              <el-row class="section_10 change">
+                <router-link :to="{ name: 'Passage', params: { id: news.id } }">{{ news.title }}</router-link>
                 <span class="publishTime">{{ news.publishTime }}</span>
               </el-row>
             </li>
@@ -62,7 +44,9 @@
     <div class="news-title-wrap show-wrap">
       <div class="news-title show">视展青春</div>
     </div>
-    <el-row :gutter="10"><IndexHotActivities /></el-row>
+    <el-row :gutter="10">
+      <IndexHotActivities />
+    </el-row>
   </div>
 </template>
 
@@ -84,7 +68,7 @@ export default {
     IndexHotActivities
   },
   methods: {
-    getTopNotices: function(typeId, n) {
+    getTopNotices: function (typeId, n) {
       this.$axios
         .get('/api/passages/top/' + n, {
           params: {
@@ -99,7 +83,7 @@ export default {
           }
         })
     },
-    getTopNewsList: function(typeId, n) {
+    getTopNewsList: function (typeId, n) {
       this.$axios
         .get('/api/passages/top/' + n, {
           params: {
@@ -114,7 +98,7 @@ export default {
           }
         })
     },
-    getTopActivityList: function(typeId, n) {
+    getTopActivityList: function (typeId, n) {
       this.$axios
         .get('/api/activities', {
           params: {
@@ -143,10 +127,55 @@ export default {
 </script>
 
 <style scoped="scoped">
-.news-title-wrap {
-  background-color: #9a0e14;
-  border-radius: 20px;
+.section_10 {
+  /* padding: 22px 15px 22px 15.5px; */
+  /* background-color: #ffffff; */
+  box-shadow: 0px -1px 0px #00000026 inset;
   position: relative;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.change:hover {
+  transform: translateX(15px);
+  cursor: pointer;
+  /* border:1px #2851e3 solid; */
+  background: #2851e3;
+  border-radius: 10px;
+}
+.view-PpVUiiue:hover {
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transform: scale(1.2);
+  scale: 1.2em;
+  cursor: pointer;
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.05)) drop-shadow(0px 20px 40px rgba(73, 39, 171, 0.3));
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px);
+  border-radius: 10px;
+}
+
+.text_9 {
+  color: rgba(0, 0, 0, 0.61);
+  font-size: 18px;
+  font-family: Roboto;
+  line-height: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%);
+  box-shadow: 0px 20px 40px rgba(147, 231, 221, 0.3);
+  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.news-title-wrap {
+  background-color: #1F51FF;
+  border-radius: 10px;
+  position: relative;
+  background: linear-gradient(30deg, #2fb8ff 0%, #9eecd9 100%);
+  box-shadow: 0px 20px 40px rgba(147, 231, 221, 0.3);
 }
 
 .news-title-wrap .news-title {
@@ -191,11 +220,10 @@ export default {
 
 .news-list li {
   display: inline-block;
-  float: left;
-  width: 270px;
+  /* float: left; */
+  width: 400px;
   height: 32px;
   line-height: 32px;
-  margin-left: 25px;
   text-align: left;
 
   -webkit-line-clamp: 1;

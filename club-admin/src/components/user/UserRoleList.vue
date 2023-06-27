@@ -122,6 +122,6 @@ export default {
 .router-link-exact-active.router-link-active {
   display: block;
   width: 100%;
-  background-color: #9a0e14;
+  background-color: #1F51FF;
 }
 </style>

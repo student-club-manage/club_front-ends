@@ -1,7 +1,7 @@
 <template>
 	<div class="footer-wrap">
 		<div class="footer">
-			<p class="introduce">欢迎访问社团管理系统,这是一个简单的毕设作品</p>
+			<p class="introduce">这是一个简单的毕设作品</p>
 			<p>Copyright RF All rights reserved.</p>
 		</div>
 	</div>
@@ -15,7 +15,7 @@ export default {
 
 <style scoped="scoped">
 	.footer-wrap {
-		background-color:#9a0e14 ;
+		background-color:#1F51FF ;
     position: fixed;
     left: 0;
     right: 0;
