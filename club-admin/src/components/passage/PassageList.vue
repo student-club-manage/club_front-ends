@@ -27,19 +27,12 @@
         >
       </el-form-item>
       <el-button
-<<<<<<< Updated upstream
         class="add-passage-btn"
-=======
->>>>>>> Stashed changes
         type="success"
         icon="el-icon-plus"
         @click="addPage()"
         size="small"
-<<<<<<< Updated upstream
         >添加文章</el-button
-=======
-        >添加</el-button
->>>>>>> Stashed changes
       >
     </el-form>
     <el-table
@@ -95,8 +88,6 @@
             >编辑</el-button
           >
           <el-button
-<<<<<<< Updated upstream
-=======
             type="success"
             icon="el-icon-plus"
             @click="addPage()"
@@ -104,7 +95,6 @@
             >添加</el-button
           >
           <el-button
->>>>>>> Stashed changes
             type="danger"
             icon="el-icon-delete"
             @click="deletePassage(scope.row)"
@@ -233,7 +223,6 @@ export default {
 };
 </script>
 <style scoped="scoped">
-<<<<<<< Updated upstream
 .add-passage-btn {
   background-color: #42b983;
   border: 1px solid #42b983;
@@ -252,7 +241,4 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 @import "../../css/common.css";
-=======
-/*@import "../../css/common.css";*/
->>>>>>> Stashed changes
 </style>
