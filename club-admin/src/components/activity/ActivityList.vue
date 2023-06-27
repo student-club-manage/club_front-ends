@@ -35,11 +35,12 @@
         ></el-form-item
       >
       <el-button
+        class="add-activity-btn"
         type="success"
         icon="el-icon-plus"
         @click="addPage()"
         size="small"
-        >添加</el-button
+        >添加活动</el-button
       >
     </el-form>
     <el-table :data="activityData" stripe style="width:100%" border size="mini">
@@ -81,13 +82,6 @@
             @click="editPage(scope.row)"
             size="mini"
             >编辑</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-plus"
-            @click="addPage"
-            size="mini"
-            >添加</el-button
           >
           <el-button
             type="danger"
@@ -218,5 +212,22 @@ export default {
 };
 </script>
 <style scoped="scoped">
+.add-activity-btn {
+  background-color: #42b983;
+  border: 1px solid #42b983;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.add-activity-btn:hover {
+  background-color: #35a16c;
+  border-color: #35a16c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 @import "../../css/common.css";
 </style>

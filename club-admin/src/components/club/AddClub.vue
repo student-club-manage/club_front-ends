@@ -11,12 +11,11 @@
 			@focus="onEditorFocus($event)"
 			@change="onEditorChange($event)"
 		></quill-editor>
-		</textarea>
 		<el-form-item label="社团类型" >
 			<el-select v-model="club.clubTypeId" placeholder="请选择社团类型">
 				<el-option v-for="clubType in clubTypeList"  :key="clubType.id" :label="clubType.type" :value="clubType.id"></el-option>
 			</el-select>
-			
+
 		</el-form-item>
 		<el-form-item >
 			<el-button type="primary" @click="add">添加</el-button>
@@ -46,7 +45,7 @@ export default {
 	methods: {
 		add: function() {
 			this.$axios
-				.post('/api/clubs/', 
+				.post('/api/clubs/',
 					 this.club
 				)
 				.then(res => {
@@ -92,7 +91,7 @@ export default {
 	created() {
 		var id = this.$route.params.id;
 		this.getClubTypeList();
-		
+
 	},
 	watch: {
 		$route(to, from) {

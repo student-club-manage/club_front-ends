@@ -169,7 +169,7 @@ export default {
       } else {
         this.file.fileTypeId = 5;
       }
-      console.log("chnage fileType");
+      console.log("change fileType");
     },
     goBack: function() {
       this.$router.back(-1);

@@ -1,7 +1,7 @@
 <template>
 	<div class="footer-wrap">
 		<div class="footer">
-			<p class="introduce">欢迎访问社团管理系统,这是一个简单的毕设作品</p>
+			<p class="introduce">欢迎访问社团管理系统,这是一个简单的课设作品</p>
 			<p>Copyright RF All rights reserved.</p>
 		</div>
 	</div>

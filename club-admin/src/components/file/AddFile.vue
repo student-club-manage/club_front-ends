@@ -9,7 +9,7 @@
 			</el-upload>
 		</el-form-item>
 		<el-form-item >
-			<el-button type="primary" @click="add">添加</el-button>
+			<el-button class="add-file-btn" type="primary" @click="add">添加文件</el-button>
 			<el-button @click="goBack">返回</el-button>
 		</el-form-item>
 	</el-form>
@@ -36,13 +36,13 @@ export default {
 			this.$axios.get('/api/fileTypes').then(res => {
 				if (res.data.code == OK) {
 					this.newsTypeList = res.data.data;
-					
+
 				} else {
 					this.$message.error(res.data.data);
 				}
 			});
 		},
-	
+
 		goBack:function(){
 			this.$router.back(-1)
 		},
@@ -59,9 +59,9 @@ export default {
 	},
 	created() {
 		var id = this.$route.query.id;
-		
+
 		// this.getFileTypeList();
-		
+
 	},
 	watch: {
 		$route(to, from) {
