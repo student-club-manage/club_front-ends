@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     isFull() {
-      return this.$store.state.isFull
+      return this.$store.state.screen.isFull
     }
   }
 }

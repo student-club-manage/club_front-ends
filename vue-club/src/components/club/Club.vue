@@ -17,7 +17,6 @@ export default {
     get: function() {
       var num = this.$route.params.num
       this.$axios.get('/api/clubs/' + num).then(res => {
-        console.log(res.data)
         if (res.data.code === OK) {
           this.club = res.data.data
         } else {
@@ -28,7 +27,7 @@ export default {
   },
   created() {
     this.get()
-    this.$store.commit('setToFull')
+    this.$store.dispatch('screen/setToFull')
   },
   watch: {
     $route(to, from) {
@@ -36,7 +35,7 @@ export default {
     }
   },
   destroyed() {
-    this.$store.commit('setToMin')
+    this.$store.dispatch('screen/setToMin')
   }
 }
 </script>
