@@ -69,7 +69,7 @@ export default {
 .title {
 	display: block;
 	font-size: 24px;
-	color: #9a0e14;
+	color: #1F51FF;
 	margin-top: 10px;
 }
 .wrap {

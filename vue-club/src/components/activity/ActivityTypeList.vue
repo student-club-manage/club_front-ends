@@ -1,5 +1,5 @@
 <template>
-	<el-menu default-active="activeIndex" class="el-menu-vertical-demo" active-text-color="#9a0e14" 
+	<el-menu default-active="activeIndex" class="el-menu-vertical-demo" active-text-color="#1F51FF" 
 	text-color="#000" >
 		<el-menu-item  v-for="(activityType, index) in activityTypeList" :key="index">
 			<span slot="title">
@@ -41,7 +41,7 @@
 		width: 100% !important;
 		font-size: 120%;
 		font-weight: 900;
-		color: #9a0e14;
+		color: #1F51FF;
 	}
 	
 </style>

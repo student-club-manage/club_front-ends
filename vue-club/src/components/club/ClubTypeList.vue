@@ -1,5 +1,5 @@
 <template>
-	<el-menu default-active="1" class="el-menu-vertical-demo" active-text-color="#9a0e14"
+	<el-menu default-active="1" class="el-menu-vertical-demo" active-text-color="#1F51FF"
 	 text-color="#000" background-color="#eee">
 		<el-menu-item v-for="(clubType, index) in clubTypeList" :key="index">
 			<span slot="title">
@@ -39,6 +39,6 @@ export default {
 	display: block;
 	font-size: 120%;
 	font-weight: 900;
-	color: #9a0e14;
+	color: #1F51FF;
 }
 </style>
