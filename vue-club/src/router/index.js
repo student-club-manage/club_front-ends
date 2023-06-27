@@ -64,7 +64,16 @@ export default new Router({
       path: '/files',
       component: resolve => require(['@/components/file/FileList'], resolve)
     },
-
+    {
+      name: 'SiginPage',
+      path: '/sigin',
+      component: resolve => require(['../pages/Sigin'], resolve)
+    },
+    {
+      name: 'LogInPage',
+      path: '/login',
+      component: resolve => require(['../pages/LogIn'], resolve)
+    },
     {
       path: '*',
       redirect: '/'

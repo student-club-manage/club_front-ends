@@ -34,7 +34,6 @@ export default {
         })
         .then(res => {
           if (res.data.code === OK) {
-            console.log(res.data.data.list)
             this.carouselImg = res.data.data.list
           } else {
             this.$layer.alert(res.data.data)

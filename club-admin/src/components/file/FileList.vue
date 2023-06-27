@@ -27,12 +27,19 @@
         ></el-form-item
       >
       <el-button
+<<<<<<< Updated upstream
         class="add-file-btn"
+=======
+>>>>>>> Stashed changes
         type="success"
         icon="el-icon-plus"
         @click="addPage()"
         size="small"
+<<<<<<< Updated upstream
         >添加文件</el-button
+=======
+        >添加</el-button
+>>>>>>> Stashed changes
       >
     </el-form>
     <el-table :data="fileData" stripe style="width:100%" border size="mini">
@@ -65,7 +72,17 @@
             size="mini"
             >编辑</el-button
           >
+<<<<<<< Updated upstream
 
+=======
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            @click="addPage()"
+            size="mini"
+            >添加</el-button
+          >
+>>>>>>> Stashed changes
           <el-button
             type="danger"
             icon="el-icon-delete"

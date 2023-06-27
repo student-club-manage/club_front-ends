@@ -56,7 +56,6 @@ export default {
 	methods: {
 		getActivityPage: function(pageNum, pageSize) {
 			var typeId = this.$route.query.typeId;
-			console.log(typeId);
 			this.$axios
 				.get('/api/activities', {
 					params: {
@@ -66,7 +65,6 @@ export default {
 					}
 				})
 				.then(res => {
-					console.log(res.data.data);
 					if (res.data.code == OK) {
 						this.activityPageVo = res.data.data;
 					} else {

@@ -32,6 +32,13 @@ module.exports = {
         pathRewrite: {
           '^/fileServer': '/'
         }
+      },
+      '/other': {
+        target: 'http://192.168.43.162:8082',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/other': '/club/admin'
+        }
       }
     },
 

@@ -77,6 +77,7 @@ export default {
     add: function() {
       this.addNews();
     },
+
     addNews: function() {
       this.$axios
         .post("/api/passages", this.passage)
