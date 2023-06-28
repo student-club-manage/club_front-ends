@@ -136,7 +136,6 @@ export default {
     },
     editPage: function(row) {
       var num = row.num;
-      console.log(num);
       this.$router.push({ name: "EditClub", query: { num: num } });
     },
     addPage: function() {
@@ -177,7 +176,6 @@ export default {
       this.$axios.get("/api/clubTypes").then(res => {
         if (res.data.code === OK) {
           this.clubTypeList = res.data.data;
-          console.log("test:", res.data.data);
         } else {
           this.$message.error(res.data.data);
         }

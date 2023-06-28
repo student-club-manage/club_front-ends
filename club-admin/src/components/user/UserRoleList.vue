@@ -53,7 +53,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditUserRole", query: { id: id } });
     },
     addPage() {
@@ -134,6 +133,6 @@ export default {
 .router-link-exact-active.router-link-active {
   display: block;
   width: 100%;
-  background-color: #1F51FF;
+  background-color: #1f51ff;
 }
 </style>

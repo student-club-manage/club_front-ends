@@ -131,9 +131,6 @@ export default {
   components: {},
   methods: {
     getUserPage: function(pageNum, pageSize) {
-      // var typeId = this.$route.query.roleId;
-      // this.typeId = typeId;
-      // console.log("typeid:"+typeId);
       this.$axios
         .get("/api/users", {
           params: {
@@ -144,12 +141,10 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res.data.data);
           if (res.data.code == OK) {
             this.userPage = res.data.data;
             this.userData = this.userPage.list;
             this.pages = this.userPage.pages;
-            console.log(this.userData);
           } else {
             this.$message.error(res.data.data);
           }
@@ -168,7 +163,7 @@ export default {
       this.$axios.get("/api/userRoles").then(res => {
         if (res.data.code == OK) {
           this.userTypeList = res.data.data;
-          console.log("test:", res.data.data);
+          console.log("userList", this.userTypeList);
         } else {
           this.$message.error(res.data.data);
         }
@@ -176,7 +171,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditUser", query: { id: id } });
     },
     addPage: function() {
@@ -197,11 +191,10 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.daleteDao(num);
-          this.getUserPage(this.currentPage, 8);
-        });
+      }).then(() => {
+        this.daleteDao(num);
+        this.getUserPage(this.currentPage, 8);
+      });
     },
     refreshuserPage: function() {
       this.currentPage = page;
@@ -216,8 +209,8 @@ export default {
     }
   },
   created() {
-    this.getUserPage(this.currentPage, 8);
     this.getuserTypeList();
+    this.getUserPage(this.currentPage, 8);
   },
   watch: {
     $route(to, from) {

@@ -86,7 +86,6 @@ export default {
             // this.$message.success('添加新闻成功');
             this.passageId = res.data.data;
             this.file.passageId = this.passageId;
-            console.log("文件id：" + this.passageId);
             this.$refs.upload.submit();
             setTimeout(() => {
               this.$message.success("添加新闻成功");
@@ -139,14 +138,10 @@ export default {
     },
     handleChange: function(file, fileList) {
       var response = file.response;
-      console.log(response);
       if (response != null && response.code == OK) {
-        console.log(response.data);
         this.file.filePath = response.data;
         this.file.fileName = this.getFileName(this.file.filePath);
-        console.log(this.file.fileName);
         this.file.passageId = this.passageId;
-        console.log(this.file);
         this.$message.success("上传文件成功");
         this.saveFile();
       }
@@ -170,7 +165,6 @@ export default {
       } else {
         this.file.fileTypeId = 5;
       }
-      console.log("change fileType");
     },
     goBack: function() {
       this.$router.back(-1);

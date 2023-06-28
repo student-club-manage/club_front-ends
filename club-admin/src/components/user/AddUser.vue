@@ -59,13 +59,9 @@ export default {
   },
   methods: {
     add: function() {
-      console.log(this.user);
       this.$axios
         .post("/api/users/", this.user)
         .then(res => {
-          console.log(this.user);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message({
               message: "添加用户成功",

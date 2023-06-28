@@ -154,7 +154,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditPassage", query: { id: id } });
     },
     addPage: function() {
