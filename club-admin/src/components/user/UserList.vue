@@ -11,7 +11,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="用户类型">
-        <el-select v-model="userTypeId" placeholder="请选择用户类型">
+        <el-select v-model="roleId" placeholder="请选择用户类型">
           <el-option label="所有" value=""></el-option>
           <el-option
             v-for="userType in 4"
@@ -113,13 +113,15 @@ export default {
       userPage: {},
       userData: [],
       currentPage: 1,
-      userSearch: {}
+      userSearch: {},
+      userName: "",
+      roleId: 0
     };
   },
   components: {},
   methods: {
     getUserPage: function(pageNum, pageSize) {
-      var typeId = this.$route.query.userTypeId;
+      var typeId = this.$route.query.roleId;
       this.typeId = typeId;
       console.log(typeId);
       this.$axios
