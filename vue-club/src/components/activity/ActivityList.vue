@@ -109,17 +109,10 @@ export default {
 </script>
 
 <style scoped="scoped">
-<<<<<<< HEAD
-.link_style{
-	font-weight: 600;
-    color: #222;
-    font-size: 14px
-=======
 .link_style {
   font-weight: 600;
   color: #222;
   font-size: 14px;
->>>>>>> seaming
 }
 .section_10 {
   /* padding: 22px 15px 22px 15.5px; */

@@ -5,12 +5,8 @@
         当前位置:
         <router-link :to="{ name: 'Home' }">首页</router-link>
         >
-        <router-link
-          :to="{ name: 'ClubList', query: { typeId: clubPageVo.clubType.id } }"
-          class="club-title"
-          v-if="clubPageVo.clubType != null"
-          >社团检索</router-link
-        >
+        <router-link :to="{ name: 'ClubList', query: { typeId: clubPageVo.clubType.id } }" class="club-title"
+          v-if="clubPageVo.clubType != null">社团检索</router-link>
       </div>
     </el-header>
     <el-container>
@@ -34,15 +30,9 @@
         </ul>
       </el-main>
     </el-container>
-    <el-pagination
-      v-if="clubPageVo.clubPageInfo != null"
-      background
-      layout="prev, pager, next"
-      :current-page.sync="currentPage"
-      :total="clubPageVo.clubPageInfo.total"
-      @current-change="refreshClubPage"
-      :page-size="clubPageVo.clubPageInfo.pageSize"
-    ></el-pagination>
+    <el-pagination v-if="clubPageVo.clubPageInfo != null" background layout="prev, pager, next"
+      :current-page.sync="currentPage" :total="clubPageVo.clubPageInfo.total" @current-change="refreshClubPage"
+      :page-size="clubPageVo.clubPageInfo.pageSize"></el-pagination>
   </el-container>
 </template>
 
@@ -63,7 +53,7 @@ export default {
     fuckYou: club => {
       router.push({ name: 'Club', params: { num: club.num } })
     },
-    getClubPage: function(pageNum, pageSize) {
+    getClubPage: function (pageNum, pageSize) {
       var typeId = this.$route.query.typeId
       this.$axios
         .get('/api/clubs', {
@@ -81,7 +71,7 @@ export default {
           }
         })
     },
-    refreshClubPage: function() {
+    refreshClubPage: function () {
       this.getClubPage(this.currentPage, 8)
     }
   },
@@ -97,7 +87,6 @@ export default {
 </script>
 
 <style scoped="scoped">
-
 .view-PpVUiiue:hover {
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   transform: scale(1.2);
@@ -108,6 +97,7 @@ export default {
   backdrop-filter: blur(40px);
   border-radius: 10px;
 }
+
 .section_10 {
   /* padding: 22px 15px 22px 15.5px; */
   /* background-color: #ffffff; */
@@ -115,19 +105,22 @@ export default {
   position: relative;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+
 .change:hover {
   transform: translateX(15px);
   cursor: pointer;
   /* background: #2851e3; */
-    border:1px #2851e3 solid;
+  border: 1px #2851e3 solid;
   border-radius: 10px;
 }
+
 .site-nav {
   float: left;
   height: 70px;
   line-height: 70px;
   font-size: 20px;
 }
+
 .news-title-wrap .news-title {
   display: block;
   width: 180px;
@@ -135,14 +128,17 @@ export default {
   color: #1F51FF;
   margin-bottom: 15px;
 }
+
 .news-list li {
   height: 32px;
   line-height: 32px;
 }
+
 .hr {
   border: 2px solid #1F51FF;
 }
-.news-list li > a {
+
+.news-list li>a {
   display: inline-block;
   width: 270px;
   height: 32px;
@@ -156,7 +152,9 @@ export default {
   -webkit-box-orient: vertical;
   white-space: normal;
 }
+
 @media screen and (max-width: 600px) {
+
   .el-header,
   .el-aside {
     display: none;
