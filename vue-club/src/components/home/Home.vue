@@ -1,26 +1,27 @@
 <template>
   <div>
     <Slider />
+    <!-- background-color: #e9eef3; -->
     <el-row :gutter="60">
       <el-col :span="12" :xs="24">
-        <div class="" v-if="topNoticesVo != null">
+        <div class="type_list" v-if="topNoticesVo != null" >
           <div class="news-title-wrap" v-if="topNoticesVo.passageType != null">
             <span class="news-title">{{ topNoticesVo.passageType.type }}</span>
             <router-link :to="{ name: 'PassageList', query: { passageTypeId: 1 } }" class="more view-PpVUiiue"
               tag="span">更多>></router-link>
           </div>
           <ul class="news-list">
-            <li v-for="notice in topNoticesVo.passageList" :key="notice.id">
-              <div class="section_10 change">
-                <router-link :to="{ name: 'Passage', params: { id: notice.id } }" tag="a">{{ notice.title }}</router-link>
+            <li v-for="notice in topNoticesVo.passageList" :key="notice.id" class="section_10 change">
+              <!-- <div class="section_10 change"> -->
+                <router-link :to="{ name: 'Passage', params: { id: notice.id } }" tag="a" class="link_style">{{ notice.title }}</router-link>
                 <span class="time">{{ notice.publishTime }}</span>
-              </div>
+              <!-- </div> -->
             </li>
           </ul>
         </div>
       </el-col>
       <el-col :span="12" :xs="24">
-        <div class="grid-content bg-purple" v-if="topNoticesVo != null">
+        <div class="type_list" v-if="topNoticesVo != null">
           <div class="news-title-wrap">
             <el-row v-if="topNewsListVo.passageType != null">
               <span class="news-title" v-if="topNewsListVo.passageType != null">{{ topNewsListVo.passageType.type
@@ -30,11 +31,11 @@
             </el-row>
           </div>
           <ul class="news-list">
-            <li v-for="news in topNewsListVo.passageList" :key="news.id">
-              <el-row class="section_10 change">
-                <router-link :to="{ name: 'Passage', params: { id: news.id } }">{{ news.title }}</router-link>
-                <span class="publishTime">{{ news.publishTime }}</span>
-              </el-row>
+            <li v-for="news in topNewsListVo.passageList" :key="news.id" class="section_10 change">
+              <!-- <el-row class="section_10 change"> -->
+                <router-link :to="{ name: 'Passage', params: { id: news.id } }" class="link_style">{{ news.title }}</router-link>
+                <span class="time">{{ news.publishTime }}</span>
+              <!-- </el-row> -->
             </li>
           </ul>
         </div>
@@ -127,6 +128,21 @@ export default {
 </script>
 
 <style scoped="scoped">
+.link_style {
+	font-weight: 600;
+	color: #222;
+	font-size: 18px
+}
+
+.news-list li>.time {
+  float: right;
+  margin-right: 75px;
+}
+.type_list{
+  border-radius:5%;
+  background-color: #ffffff;
+  height: 300px;
+}
 .section_10 {
   /* padding: 22px 15px 22px 15.5px; */
   /* background-color: #ffffff; */

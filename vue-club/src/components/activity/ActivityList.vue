@@ -25,7 +25,7 @@
 				<v-hr />
 				<ul class="activity-list" v-if="activityPageVo.activityPageInfo != null">
 					<li v-for="activity in activityPageVo.activityPageInfo.list" class="section_10 change" :key="activity.id">
-						<router-link :to="{ name: 'Activity', params: { id: activity.id } }">{{ activity.activityName }}</router-link>
+						<router-link :to="{ name: 'Activity', params: { id: activity.id } }" class = "">{{ activity.activityName }}</router-link>
 						<span>{{ activity.publishTime }}</span>
 					</li>
 				</ul>
@@ -86,6 +86,11 @@ export default {
 </script>
 
 <style scoped="scoped">
+.link_style{
+	font-weight: 600;
+    color: #222;
+    font-size: 14px
+}
 .section_10 {
 	/* padding: 22px 15px 22px 15.5px; */
 	/* background-color: #ffffff; */
