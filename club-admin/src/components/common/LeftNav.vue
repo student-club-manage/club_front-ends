@@ -29,7 +29,7 @@
 				用户管理
 			</template>
 			<el-menu-item index="4-1"><router-link :to="{ name: 'UserList' }" tag="div">用户列表</router-link></el-menu-item>
-			<el-menu-item index="4-2"><router-link :to="{ name: 'AddUser' }" tag="div">添加用户</router-link></el-menu-item>
+			<el-menu-item index="4-2"><router-link :to="{ name: 'AddUser' }" tag="div">注册用户</router-link></el-menu-item>
 			<el-menu-item index="4-3"><router-link :to="{ name: 'UserRoleList' }" tag="div">用户角色列表</router-link></el-menu-item>
 		</el-submenu>
 		<el-submenu index="5">

@@ -14,7 +14,11 @@
         :alt="file.fileName"
         v-if="isImage(file.fileName)"
       />
-      <a :href="'http://192.168.43.162:8013/fileServer' + file.filePath" v-else>{{ file.fileName }}</a>
+      <a
+        :href="'http://192.168.43.162:8013/fileServer' + file.filePath"
+        v-else
+        >{{ file.fileName }}</a
+      >
     </div>
 
     <Share />
@@ -35,8 +39,6 @@ export default {
   methods: {
     get: function(id) {
       this.$axios.get('/api/passages/' + id).then(res => {
-        // this.$layer.msg(res.data);
-        console.log(res.data)
         if (res.data.code === OK) {
           this.passage = res.data.data
           this.fileList = this.passage.fileList
@@ -70,7 +72,7 @@ export default {
 .title {
   display: block;
   font-size: 24px;
-  color: #9a0e14;
+  color: #1F51FF;
   margin-top: 10px;
 }
 .time-wrap {

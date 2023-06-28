@@ -38,7 +38,6 @@ export default {
 		get: function() {
 			var id = this.$route.params.id;
 			this.$axios.get('/api/activities/' + id).then(res => {
-				console.log(res.data);
 				if (res.data.code == OK) {
 					this.activity = res.data.data;
 					this.fileList = this.activity.fileList;
@@ -70,7 +69,7 @@ export default {
 .title {
 	display: block;
 	font-size: 24px;
-	color: #9a0e14;
+	color: #1F51FF;
 	margin-top: 10px;
 }
 .wrap {

@@ -25,7 +25,7 @@
         </div>
         <v-hr />
         <ul class="news-list" v-if="clubPageVo.clubPageInfo != null">
-          <li v-for="club in clubPageVo.clubPageInfo.list" :key="club.name">
+          <li v-for="club in clubPageVo.clubPageInfo.list" :key="club.name" class="section_10 change">
             <div style="cursor: pointer;" @click="fuckYou(club)">
               {{ club.name }}
             </div>
@@ -65,7 +65,6 @@ export default {
     },
     getClubPage: function(pageNum, pageSize) {
       var typeId = this.$route.query.typeId
-      console.log(typeId)
       this.$axios
         .get('/api/clubs', {
           params: {
@@ -98,6 +97,31 @@ export default {
 </script>
 
 <style scoped="scoped">
+
+.view-PpVUiiue:hover {
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transform: scale(1.2);
+  scale: 1.2em;
+  cursor: pointer;
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.05)) drop-shadow(0px 20px 40px rgba(73, 39, 171, 0.3));
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px);
+  border-radius: 10px;
+}
+.section_10 {
+  /* padding: 22px 15px 22px 15.5px; */
+  /* background-color: #ffffff; */
+  box-shadow: 0px -1px 0px #00000026 inset;
+  position: relative;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.change:hover {
+  transform: translateX(15px);
+  cursor: pointer;
+  /* background: #2851e3; */
+    border:1px #2851e3 solid;
+  border-radius: 10px;
+}
 .site-nav {
   float: left;
   height: 70px;
@@ -108,7 +132,7 @@ export default {
   display: block;
   width: 180px;
   font-size: 24px;
-  color: #9a0e14;
+  color: #1F51FF;
   margin-bottom: 15px;
 }
 .news-list li {
@@ -116,7 +140,7 @@ export default {
   line-height: 32px;
 }
 .hr {
-  border: 2px solid #9a0e14;
+  border: 2px solid #1F51FF;
 }
 .news-list li > a {
   display: inline-block;

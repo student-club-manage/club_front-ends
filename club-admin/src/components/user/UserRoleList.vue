@@ -1,8 +1,9 @@
 <template>
-  <el-table :data="userRoleList" stripe style="width:100%" border size="mini">
-    <el-table-column prop="id" label="角色id"></el-table-column>
-    <el-table-column prop="roleName" label="用户角色名称"></el-table-column>
-    <el-table-column fixed="right" label="操作" width="360">
+  <div class="table-container">
+    <el-table :data="userRoleList" stripe style="width:100%" border size="mini">
+      <el-table-column prop="id" label="角色id"></el-table-column>
+      <el-table-column prop="roleName" label="用户角色名称"></el-table-column>
+      <!-- <el-table-column fixed="right" label="操作" width="360">
       <template slot-scope="scope">
         <el-button
           type="primary"
@@ -26,8 +27,9 @@
           >删除</el-button
         >
       </template>
-    </el-table-column>
-  </el-table>
+    </el-table-column> -->
+    </el-table>
+  </div>
 </template>
 
 <script>
@@ -58,7 +60,7 @@ export default {
       // 弹出添加表单
       this.$layer.open({
         type: 1,
-        title: "添加用户角色",
+        title: "注册新用户角色",
         content: "<user-role-form></user-role-form>",
         area: ["400px", "300px"]
       });
@@ -100,6 +102,16 @@ export default {
 </script>
 
 <style scoped="scoped">
+.el-table thead th {
+  background-color: #42b983; /* 修改表头背景色 */
+  color: #ffffff; /* 修改表头字体颜色 */
+  font-weight: bold; /* 修改表头字体粗细 */
+}
+
+.el-table td {
+  color: #333333; /* 修改单元格字体颜色 */
+}
+
 .news-list li {
   height: 32px;
   line-height: 32px;
@@ -122,6 +134,6 @@ export default {
 .router-link-exact-active.router-link-active {
   display: block;
   width: 100%;
-  background-color: #9a0e14;
+  background-color: #1F51FF;
 }
 </style>

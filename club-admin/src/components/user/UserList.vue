@@ -25,6 +25,15 @@
         <el-button type="primary" @click="find" icon="el-icon-search"
           >查询</el-button
         >
+        <el-button
+          class="add-user-btn"
+          type="success"
+          icon="el-icon-plus"
+          @click="addPage"
+          size="mini"
+        >
+          注册新用户
+        </el-button>
       </el-form-item>
     </el-form>
     <el-table :data="userData" stripe style="width:100%" size="mini" border>
@@ -73,13 +82,6 @@
             @click="editPage(scope.row)"
             size="mini"
             >编辑</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-plus"
-            @click="addPage"
-            size="mini"
-            >添加</el-button
           >
           <el-button
             type="danger"
@@ -214,5 +216,23 @@ export default {
 };
 </script>
 <style scoped="scoped">
+.add-user-btn {
+  background-color: #42b983;
+  border: 1px solid #42b983;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #35a16c;
+  border-color: #35a16c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 @import "../../css/common.css";
 </style>
