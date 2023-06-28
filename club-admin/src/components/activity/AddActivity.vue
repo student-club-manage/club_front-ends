@@ -78,12 +78,8 @@ export default {
       this.addActivitie();
     },
     addActivitie: function() {
-      console.log(this.activity);
       this.$axios.post("/api/activities/", this.activity).then(res => {
-        console.log(this.activity);
-        console.log(res.data);
         if (res.data.code == OK) {
-          console.log(res.data.data);
           this.file.activityId = res.data.data;
           this.$refs.upload.submit();
           setTimeout(() => {
@@ -115,20 +111,15 @@ export default {
     handleChange: function(file, fileList) {
       var response = file.response;
       if (response != null && response.code == OK) {
-        console.log(response.data);
         this.file.filePath = response.data;
         this.file.fileName = this.getFileName(this.file.filePath);
-        console.log(this.file.fileName);
-        console.log(this.activity.fileId);
         this.saveFile();
         this.$message.success("上传文件成功");
       }
       this.fileList = fileList.slice(-3);
     },
 
-    handlePreview: function(file) {
-      console.log(file);
-    },
+    handlePreview: function(file) {},
     saveFile: function() {
       this.$axios.post("/api/files/activity", this.file).then(res => {
         if (res.data.code === OK) {

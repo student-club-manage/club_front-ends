@@ -1,11 +1,11 @@
 <template>
   <div v-if="clubPage != null">
     <el-form :inline="true" size="small">
-      <el-form-item label="社团名称">
+      <el-form-item label="用户">
         <el-input
-          placeholder="请输入社团名称"
+          placeholder="请输入用户Id"
           prefix-icon="el-icon-search"
-          v-model="clubName"
+          v-model="userId"
           class="input-with-select"
           width="120px"
         ></el-input>
@@ -26,14 +26,6 @@
           >查询</el-button
         >
       </el-form-item>
-      <el-button
-        class="add-club-btn"
-        type="success"
-        icon="el-icon-plus"
-        @click="addPage()"
-        size="small"
-        >添加社团</el-button
-      >
     </el-form>
     <el-table
       :data="clubData"
@@ -45,40 +37,35 @@
     >
       <el-table-column
         prop="num"
-        label="社团编号"
+        label="用户Id"
         :sortable="true"
       ></el-table-column>
       <el-table-column
         prop="name"
-        label="社团名称"
+        label="社团Id"
         :sortable="true"
       ></el-table-column>
       <el-table-column
         prop="createTime"
-        label="创建时间"
+        label="是否通过"
         width="140"
-        :sortable="true"
-      ></el-table-column>
-      <el-table-column
-        prop="clubType.type"
-        label="社团类型"
         :sortable="true"
       ></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
             type="primary"
-            icon="el-icon-edit"
+            icon="el-icon-success"
             @click="editPage(scope.row)"
             size="mini"
-            >编辑</el-button
+            >同意</el-button
           >
           <el-button
             type="danger"
             icon="el-icon-delete"
             @click="deleteClub(scope.row)"
             size="mini"
-            >删除</el-button
+            >拒绝</el-button
           >
         </template>
       </el-table-column>
@@ -104,12 +91,14 @@ export default {
     return {
       clubPage: {},
       input: "",
+      token: null,
       clubData: [],
       clubTypeList: [],
-      clubName: null,
+      userId: null,
       clubTypeId: null,
       currentPage: 1,
-      pageSize: this.GLOBAL.pageSize
+      pageSize: this.GLOBAL.pageSize,
+      adminInfo: null
     };
   },
   components: {},
@@ -162,7 +151,7 @@ export default {
       });
     },
     find: function() {
-      this.getClubPage(this.currentPage, this.pageSize);
+      console.log(this.userId, this.clubTypeId);
     },
     refreshClubPage: function(page) {
       this.currentPage = page;
@@ -190,6 +179,25 @@ export default {
     $route(to, from) {
       this.getClubPage(this.currentPage, this.pageSize);
     }
+  },
+  created() {
+    this.token = this.$cookies.get("token");
+
+    this.$axios
+      .get("/api/users/getUser", {
+        params: {
+          token: this.token
+        }
+      })
+      .then(res => {
+        const { data, code } = res.data;
+
+        if (code === OK) {
+          this.adminInfo = data;
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
   }
 };
 </script>

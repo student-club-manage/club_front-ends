@@ -131,7 +131,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(id);
       this.$router.push({ name: "EditFile", query: { id: id } });
     },
     addPage: function() {

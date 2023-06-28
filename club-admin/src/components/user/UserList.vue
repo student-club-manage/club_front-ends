@@ -5,18 +5,18 @@
         <el-input
           placeholder="请输入用户名称"
           prefix-icon="el-icon-search"
-          v-model="userName"
+          v-model="userInfo.userName"
           class="input-with-select"
           width="120px"
         ></el-input>
       </el-form-item>
       <el-form-item label="用户类型">
-        <el-select v-model="roleId" placeholder="请选择用户类型">
+        <el-select v-model="userInfo.roleId" placeholder="请选择用户类型">
           <el-option label="所有" value=""></el-option>
           <el-option
-            v-for="userType in 4"
+            v-for="userType in userTypeList"
             :key="userType.id"
-            :label="userType.type"
+            :label="getRole(userType.id)"
             :value="userType.id"
           ></el-option>
         </el-select>
@@ -34,6 +34,12 @@
         >
           注册新用户
         </el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-refresh"
+          circle
+          @click="refresh"
+        />
       </el-form-item>
     </el-form>
     <el-table :data="userData" stripe style="width:100%" size="mini" border>
@@ -74,6 +80,12 @@
         width="180"
         :sortable="true"
       ></el-table-column>
+      <el-table-column
+        prop="roleId"
+        label="角色"
+        width="180"
+        :sortable="true"
+      ></el-table-column>
       <el-table-column fixed="right" label="操作" width="270">
         <template slot-scope="scope">
           <el-button
@@ -100,7 +112,9 @@
       :current-page.sync="currentPage"
       :total="userPage.total"
       @current-change="refreshuserPage"
+      @size-change="handleSizeChange"
       :page-size="userPage.pageSize"
+      :page-sizes="GLOBAL.pageSizeArray"
     ></el-pagination>
   </div>
 </template>
@@ -115,29 +129,53 @@ export default {
       currentPage: 1,
       userSearch: {},
       userName: "",
-      roleId: 0
+      roleId: "",
+      userTypeList: [],
+      currentUsers: [],
+      userInfo: {
+        userName: "",
+        roleId: ""
+      },
+      pageSize: this.GLOBAL.pageSize
     };
   },
   components: {},
   methods: {
+    getRole: function(type) {
+      switch (type) {
+        case 1:
+          return "超级管理员";
+        case 2:
+          return "社团负责人";
+        case 3:
+          return "社团助理";
+        default:
+          return "一般用户";
+      }
+    },
     getUserPage: function(pageNum, pageSize) {
-      var typeId = this.$route.query.roleId;
-      this.typeId = typeId;
-      console.log(typeId);
       this.$axios
         .get("/api/users", {
           params: {
             pageNum: pageNum,
-            pageSize: pageSize
-            // this.userSearch
+            pageSize: pageSize,
+            roleId: this.roleId,
+            userName: this.userName // 添加 userName 到请求参数
           }
         })
         .then(res => {
-          // console.log(res.data.data);
           if (res.data.code == OK) {
             this.userPage = res.data.data;
             this.userData = this.userPage.list;
-            console.log(this.userData);
+
+            this.userPage.list.forEach(item => {
+              item.roleId = this.getRole(item.roleId);
+              item.lastLoginTime = item.lastLoginTime || "未知";
+              item.institute = item.institute || "未记录";
+            });
+            this.pages = this.userPage.pages;
+            this.total = this.userPage.total;
+            this.currentPage = this.userPage.pageNum;
           } else {
             this.$message.error(res.data.data);
           }
@@ -152,67 +190,87 @@ export default {
         }
       });
     },
+    getuserTypeList: function() {
+      this.$axios.get("/api/userRoles").then(res => {
+        if (res.data.code == OK) {
+          this.userTypeList = res.data.data;
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
+    },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditUser", query: { id: id } });
     },
     addPage: function() {
       this.$router.push({ name: "AddUser" });
     },
     daleteDao: function(id) {
-      this.$axios.delete(`/api/users/${id}`).then(res => {
+      this.$axios.delete("/api/users/" + id).then(res => {
         if (res.data.code == OK) {
-          this.userPage = res.data.data;
-          this.userData = res.data.data.list;
-          console.log(this.userData);
+          this.$message.success("删除成功");
         } else {
           this.$message.error(res.data.data);
         }
       });
     },
     deleteUser: function(row) {
+      var num = row.id;
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.$axios
-            .delete(`/api/users/${row.id}`)
-            .then(response => {
-              if (response.data.code === OK) {
-                this.$message.success("删除成功");
-                this.getNewsTypeList(); // 刷新列表
-              } else {
-                this.$message.error("删除失败");
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              this.$message.error("删除失败");
-            });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+      }).then(() => {
+        this.daleteDao(num);
+        this.getUserPage(this.currentPage, 8);
+      });
     },
     refreshuserPage: function() {
+      this.currentPage = page;
       this.getUserPage(this.currentPage, 8);
     },
+    handleSizeChange: function(size) {
+      this.currentPage = page;
+      this.getUserPage(page, this.pageSize);
+    },
     find: function() {
+      this.userInfo.userName = this.userInfo.userName || " ";
+      this.userInfo.roleId = this.userInfo.roleId || " ";
+      this.$axios
+        .get(
+          `/api/users/getByName_Role/${this.userInfo.userName}/${
+            this.userInfo.roleId
+          }`
+        )
+        .then(res => {
+          const {
+            status,
+            data: { data }
+          } = res;
+
+          console.log(res);
+
+          if (status === OK) {
+            this.userData = data;
+          } else {
+            this.$message.error("查询失败");
+          }
+        });
+    },
+    refresh: function() {
+      this.getuserTypeList();
       this.getUserPage(this.currentPage, 8);
     }
   },
   created() {
-    this.getUserPage(1, 8);
+    this.getuserTypeList();
+    this.getUserPage(this.currentPage, 8);
   },
   watch: {
     $route(to, from) {
       this.getUserPage(this.currentPage, 8);
+      this.getuserTypeList();
     }
   }
 };

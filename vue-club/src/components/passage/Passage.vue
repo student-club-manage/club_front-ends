@@ -72,7 +72,7 @@ export default {
 .title {
   display: block;
   font-size: 24px;
-  color: #1F51FF;
+  color: #1f51ff;
   margin-top: 10px;
 }
 .time-wrap {

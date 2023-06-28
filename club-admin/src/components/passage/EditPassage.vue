@@ -74,12 +74,9 @@ export default {
   methods: {
     get: function(id) {
       this.$axios.get("/api/passages/" + id).then(res => {
-        console.log(res.data);
         if (res.data.code == OK) {
           this.passage = res.data.data;
           this.fileList = this.passage.fileList;
-          console.log(this.fileList);
-          // this.initSelected();
         } else {
           this.$layer.msg(res.data.message, { icon: 5 });
         }
@@ -99,9 +96,6 @@ export default {
       this.$axios
         .put("/api/passages/", this.passage)
         .then(res => {
-          console.log(this.passage);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message.success("添加新闻成功");
             setTimeout(() => {

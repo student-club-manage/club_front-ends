@@ -57,9 +57,7 @@ export default {
     },
     handleChange: function(file, fileList) {
       var response = file.response;
-      console.log(response);
       if (response != null && response.code == OK) {
-        console.log(response.data);
         this.$message.success("上传文件成功");
         this.$router.push({
           name: "FileList",
