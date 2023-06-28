@@ -75,7 +75,7 @@
         :sortable="true"
       ></el-table-column>
       <el-table-column
-        prop="userType.roleName"
+        prop="roleId"
         label="角色"
         width="180"
         :sortable="true"
@@ -130,6 +130,18 @@ export default {
   },
   components: {},
   methods: {
+    getRole: function(type) {
+      switch (type) {
+        case 1:
+          return "超级管理员";
+        case 2:
+          return "社团负责人";
+        case 3:
+          return "社团助理";
+        default:
+          return "一般用户";
+      }
+    },
     getUserPage: function(pageNum, pageSize) {
       this.$axios
         .get("/api/users", {
@@ -144,7 +156,15 @@ export default {
           if (res.data.code == OK) {
             this.userPage = res.data.data;
             this.userData = this.userPage.list;
+
+            this.userPage.list.forEach(item => {
+              item.roleId = this.getRole(item.roleId);
+              item.lastLoginTime = item.lastLoginTime || "未知";
+              item.institute = item.institute || "未记录";
+            });
             this.pages = this.userPage.pages;
+            this.total = this.userPage.total;
+            this.currentPage = this.userPage.pageNum;
           } else {
             this.$message.error(res.data.data);
           }
@@ -163,7 +183,6 @@ export default {
       this.$axios.get("/api/userRoles").then(res => {
         if (res.data.code == OK) {
           this.userTypeList = res.data.data;
-          console.log("userList", this.userTypeList);
         } else {
           this.$message.error(res.data.data);
         }

@@ -55,6 +55,7 @@ export default {
   left: 200px;
   right: 0;
   height: 60px;
+  z-index: 1000;
   background-color: #2f4056;
 }
 .header .sys-name {
