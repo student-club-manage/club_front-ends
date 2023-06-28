@@ -66,13 +66,6 @@
             >编辑</el-button
           >
           <el-button
-            type="success"
-            icon="el-icon-plus"
-            @click="addPage()"
-            size="mini"
-            >添加</el-button
-          >
-          <el-button
             type="danger"
             icon="el-icon-delete"
             @click="deleteFile(scope.row)"
@@ -173,7 +166,6 @@ export default {
     }
   },
   created() {
-    var fileTypeId = this.fileTypeId;
     this.getFilePage(this.currentPage, 8);
     this.getFileTypeList();
   }

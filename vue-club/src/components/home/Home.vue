@@ -4,17 +4,30 @@
     <!-- background-color: #e9eef3; -->
     <el-row :gutter="60">
       <el-col :span="12" :xs="24">
-        <div class="type_list" v-if="topNoticesVo != null" >
+        <div class="type_list" v-if="topNoticesVo != null">
           <div class="news-title-wrap" v-if="topNoticesVo.passageType != null">
             <span class="news-title">{{ topNoticesVo.passageType.type }}</span>
-            <router-link :to="{ name: 'PassageList', query: { passageTypeId: 1 } }" class="more view-PpVUiiue"
-              tag="span">更多>></router-link>
+            <router-link
+              :to="{ name: 'PassageList', query: { passageTypeId: 1 } }"
+              class="more view-PpVUiiue"
+              tag="span"
+              >更多>></router-link
+            >
           </div>
           <ul class="news-list">
-            <li v-for="notice in topNoticesVo.passageList" :key="notice.id" class="section_10 change">
+            <li
+              v-for="notice in topNoticesVo.passageList"
+              :key="notice.id"
+              class="section_10 change"
+            >
               <!-- <div class="section_10 change"> -->
-                <router-link :to="{ name: 'Passage', params: { id: notice.id } }" tag="a" class="link_style">{{ notice.title }}</router-link>
-                <span class="time">{{ notice.publishTime }}</span>
+              <router-link
+                :to="{ name: 'Passage', params: { id: notice.id } }"
+                tag="a"
+                class="link_style"
+                >{{ notice.title }}</router-link
+              >
+              <span class="time">{{ notice.publishTime }}</span>
               <!-- </div> -->
             </li>
           </ul>
@@ -24,17 +37,32 @@
         <div class="type_list" v-if="topNoticesVo != null">
           <div class="news-title-wrap">
             <el-row v-if="topNewsListVo.passageType != null">
-              <span class="news-title" v-if="topNewsListVo.passageType != null">{{ topNewsListVo.passageType.type
-              }}</span>
-              <router-link :to="{ name: 'PassageList', query: { passageTypeId: 2 } }" class="more  view-PpVUiiue"
-                tag="span">更多>></router-link>
+              <span
+                class="news-title"
+                v-if="topNewsListVo.passageType != null"
+                >{{ topNewsListVo.passageType.type }}</span
+              >
+              <router-link
+                :to="{ name: 'PassageList', query: { passageTypeId: 2 } }"
+                class="more  view-PpVUiiue"
+                tag="span"
+                >更多>></router-link
+              >
             </el-row>
           </div>
           <ul class="news-list">
-            <li v-for="news in topNewsListVo.passageList" :key="news.id" class="section_10 change">
+            <li
+              v-for="news in topNewsListVo.passageList"
+              :key="news.id"
+              class="section_10 change"
+            >
               <!-- <el-row class="section_10 change"> -->
-                <router-link :to="{ name: 'Passage', params: { id: news.id } }" class="link_style">{{ news.title }}</router-link>
-                <span class="time">{{ news.publishTime }}</span>
+              <router-link
+                :to="{ name: 'Passage', params: { id: news.id } }"
+                class="link_style"
+                >{{ news.title }}</router-link
+              >
+              <span class="time">{{ news.publishTime }}</span>
               <!-- </el-row> -->
             </li>
           </ul>
@@ -69,7 +97,7 @@ export default {
     IndexHotActivities
   },
   methods: {
-    getTopNotices: function (typeId, n) {
+    getTopNotices: function(typeId, n) {
       this.$axios
         .get('/api/passages/top/' + n, {
           params: {
@@ -84,7 +112,7 @@ export default {
           }
         })
     },
-    getTopNewsList: function (typeId, n) {
+    getTopNewsList: function(typeId, n) {
       this.$axios
         .get('/api/passages/top/' + n, {
           params: {
@@ -99,7 +127,7 @@ export default {
           }
         })
     },
-    getTopActivityList: function (typeId, n) {
+    getTopActivityList: function(typeId, n) {
       this.$axios
         .get('/api/activities', {
           params: {
@@ -128,17 +156,17 @@ export default {
 
 <style scoped="scoped">
 .link_style {
-	font-weight: 600;
-	color: #222;
-	font-size: 18px
+  font-weight: 600;
+  color: #222;
+  font-size: 18px;
 }
 
-.news-list li>.time {
+.news-list li > .time {
   float: right;
   margin-right: 75px;
 }
-.type_list{
-  border-radius:5%;
+.type_list {
+  border-radius: 5%;
   background-color: #ffffff;
   height: 300px;
 }
@@ -161,7 +189,8 @@ export default {
   transform: scale(1.2);
   scale: 1.2em;
   cursor: pointer;
-  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.05)) drop-shadow(0px 20px 40px rgba(73, 39, 171, 0.3));
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.05))
+    drop-shadow(0px 20px 40px rgba(73, 39, 171, 0.3));
   border: 0.5px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(40px);
   border-radius: 10px;
@@ -186,7 +215,7 @@ export default {
 }
 
 .news-title-wrap {
-  background-color: #1F51FF;
+  background-color: #1f51ff;
   border-radius: 10px;
   position: relative;
   background: linear-gradient(30deg, #2fb8ff 0%, #9eecd9 100%);
