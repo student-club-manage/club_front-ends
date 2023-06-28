@@ -37,16 +37,26 @@
         </div>
       </el-upload>
     </el-form-item>
-    <el-form-item label="活动类型" prop="activityTypeId">
-      <el-select v-model="activity.activityTypeId" placeholder="请选择活动类型">
+    <el-form-item label="所属社团" prop="activityTypeId">
+      <el-select v-model="activity.activityTypeId" placeholder="请选择社团类型">
+        <el-option
+          v-for="clubList in clubTypeList"
+          :key="clubList.num"
+          :label="clubList.name"
+          :value="clubList.num"
+        ></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="活动类型" prop="clubId">
+      <el-select v-model="activity.clubId" placeholder="请选择活动类型">
         <el-option
           v-for="activityType in activityTypeList"
           :key="activityType.id"
           :label="activityType.type"
           :value="activityType.id"
-        ></el-option>
-      </el-select>
-    </el-form-item>
+        ></el-option> </el-select
+    ></el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
       <el-button @click="goBack">返回</el-button>
@@ -70,7 +80,8 @@ export default {
       imageUrl: "",
       fileList: [],
       file: { activityId: 0 },
-      relativePath: "/images/activity/"
+      relativePath: "/images/activity/",
+      clubTypeList: null
     };
   },
   methods: {
@@ -98,6 +109,22 @@ export default {
           });
         }
       });
+    },
+    getClubPage: function(pageNum, pageSize) {
+      this.$axios
+        .get("/api/clubs", {
+          params: {
+            pageNum: pageNum,
+            pageSize: pageSize
+          }
+        })
+        .then(res => {
+          if (res.data.code === OK) {
+            this.clubTypeList = res.data.data.list;
+          } else {
+            this.$message.error(res.data.data);
+          }
+        });
     },
     getActivityTypeList: function() {
       this.$axios.get("/api/activityTypes").then(res => {
@@ -158,6 +185,7 @@ export default {
   },
   created() {
     this.getActivityTypeList();
+    this.getClubPage(100, 100);
   },
   watch: {
     $route(to, from) {

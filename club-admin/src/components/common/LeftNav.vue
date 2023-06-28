@@ -158,6 +158,7 @@ export default {
 <style scoped="scoped">
 .leftNav {
   position: fixed;
+  z-index: 999;
   left: 0;
   top: 0;
   bottom: 0;
