@@ -14,7 +14,7 @@
             :key="url.src"
           />
         </h2>
-        <button class="apply">申请加入</button>
+        <button class="apply" @click="applyToClub">申请加入</button>
       </div>
     </div>
   </div>
@@ -50,6 +50,33 @@ export default {
           this.$layer.alert(res.data.data)
         }
       })
+    },
+    applyToClub: function() {
+      console.log(this.club)
+      // 发送申请请求到后端
+      this.$axios
+        .post('/other/clubApply/', this.club)
+        .then(res => {
+          if (res.data.code === OK) {
+            console.log(res.data.data)
+            setTimeout(() => {
+              this.$message({
+                message: '申请已发送',
+                type: 'success'
+              })
+            }, 900)
+            // this.$message.success('申请已发送');
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          this.$message.error('发送申请失败')
+        })
     }
   },
   created() {
@@ -160,7 +187,6 @@ a.cc:hover {
 .apply {
   width: 269px;
   height: 68px;
-  flex-shrink: 0;
   border-radius: 24px;
   background: #a5a6f6;
   box-shadow: -1px -9px 20px 0px rgba(0, 0, 0, 0.23) inset,
@@ -169,5 +195,8 @@ a.cc:hover {
   font-size: 24px;
   font-family: Roboto;
   font-weight: 600;
+  position: fixed; /* 使用 fixed 定位 */
+  bottom: 10px; /* 距离底部的距离，根据需要进行调整 */
+  right: 10px; /* 距离右侧的距离，根据需要进行调整 */
 }
 </style>
