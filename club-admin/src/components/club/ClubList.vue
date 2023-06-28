@@ -177,6 +177,7 @@ export default {
       this.$axios.get("/api/clubTypes").then(res => {
         if (res.data.code === OK) {
           this.clubTypeList = res.data.data;
+          console.log("test:", res.data.data);
         } else {
           this.$message.error(res.data.data);
         }

@@ -14,9 +14,9 @@
         <el-select v-model="roleId" placeholder="请选择用户类型">
           <el-option label="所有" value=""></el-option>
           <el-option
-            v-for="userType in 4"
+            v-for="userType in userTypeList"
             :key="userType.id"
-            :label="userType.type"
+            :label="userType.roleName"
             :value="userType.id"
           ></el-option>
         </el-select>
@@ -74,6 +74,12 @@
         width="180"
         :sortable="true"
       ></el-table-column>
+      <el-table-column
+        prop="userType.roleName"
+        label="角色"
+        width="180"
+        :sortable="true"
+      ></el-table-column>
       <el-table-column fixed="right" label="操作" width="270">
         <template slot-scope="scope">
           <el-button
@@ -100,7 +106,9 @@
       :current-page.sync="currentPage"
       :total="userPage.total"
       @current-change="refreshuserPage"
+      @size-change="handleSizeChange"
       :page-size="userPage.pageSize"
+      :page-sizes="GLOBAL.pageSizeArray"
     ></el-pagination>
   </div>
 </template>
@@ -114,22 +122,25 @@ export default {
       userData: [],
       currentPage: 1,
       userSearch: {},
-      userName: "",
-      roleId: 0
+      userName: null,
+      roleId: null,
+      userTypeList: [],
+      pageSize: this.GLOBAL.pageSize
     };
   },
   components: {},
   methods: {
     getUserPage: function(pageNum, pageSize) {
-      var typeId = this.$route.query.roleId;
-      this.typeId = typeId;
-      console.log(typeId);
+      // var typeId = this.$route.query.roleId;
+      // this.typeId = typeId;
+      // console.log("typeid:"+typeId);
       this.$axios
         .get("/api/users", {
           params: {
             pageNum: pageNum,
-            pageSize: pageSize
-            // this.userSearch
+            pageSize: pageSize,
+            roleId: this.roleId,
+            userName: this.userName // 添加 userName 到请求参数
           }
         })
         .then(res => {
@@ -137,6 +148,7 @@ export default {
           if (res.data.code == OK) {
             this.userPage = res.data.data;
             this.userData = this.userPage.list;
+            this.pages = this.userPage.pages;
             console.log(this.userData);
           } else {
             this.$message.error(res.data.data);
@@ -152,6 +164,16 @@ export default {
         }
       });
     },
+    getuserTypeList: function() {
+      this.$axios.get("/api/userRoles").then(res => {
+        if (res.data.code == OK) {
+          this.userTypeList = res.data.data;
+          console.log("test:", res.data.data);
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
+    },
     editPage: function(row) {
       var id = row.id;
       console.log(row.id);
@@ -161,58 +183,46 @@ export default {
       this.$router.push({ name: "AddUser" });
     },
     daleteDao: function(id) {
-      this.$axios.delete(`/api/users/${id}`).then(res => {
+      this.$axios.delete("/api/users/" + id).then(res => {
         if (res.data.code == OK) {
-          this.userPage = res.data.data;
-          this.userData = res.data.data.list;
-          console.log(this.userData);
+          this.$message.success("删除成功");
         } else {
           this.$message.error(res.data.data);
         }
       });
     },
     deleteUser: function(row) {
+      var num = row.id;
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$axios
-            .delete(`/api/users/${row.id}`)
-            .then(response => {
-              if (response.data.code === OK) {
-                this.$message.success("删除成功");
-                this.getNewsTypeList(); // 刷新列表
-              } else {
-                this.$message.error("删除失败");
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              this.$message.error("删除失败");
-            });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
+          this.daleteDao(num);
+          this.getUserPage(this.currentPage, 8);
         });
     },
     refreshuserPage: function() {
+      this.currentPage = page;
       this.getUserPage(this.currentPage, 8);
+    },
+    handleSizeChange: function(size) {
+      this.currentPage = page;
+      this.getUserPage(page, this.pageSize);
     },
     find: function() {
       this.getUserPage(this.currentPage, 8);
     }
   },
   created() {
-    this.getUserPage(1, 8);
+    this.getUserPage(this.currentPage, 8);
+    this.getuserTypeList();
   },
   watch: {
     $route(to, from) {
       this.getUserPage(this.currentPage, 8);
+      this.getuserTypeList();
     }
   }
 };
