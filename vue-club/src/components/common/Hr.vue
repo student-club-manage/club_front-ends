@@ -1,15 +1,13 @@
 <template>
-	<div class="hr"></div>
+  <div class="hr"></div>
 </template>
 
 <script>
-	export default{
-		
-	}
+export default {}
 </script>
 
 <style>
-	.hr{
-		border:2px solid #1F51FF;
-	}
+.hr {
+  border: 2px solid #1f51ff;
+}
 </style>
