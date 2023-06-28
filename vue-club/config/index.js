@@ -10,6 +10,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/fileServer': {
+        target: 'http://192.168.43.162:8013',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/fileServer': '/'
+        }
+      },
       '/api': {
         target: 'http://192.168.43.162:8081',
         // target: 'http://localhost:8010',
@@ -23,14 +30,6 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/admin': '/club/admin'
-        }
-      },
-      '/fileServer': {
-        target: 'http://192.168.43.162:8013',
-        // target: 'http://localhost:8010',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/fileServer': '/'
         }
       },
       '/other': {
