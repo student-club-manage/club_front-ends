@@ -65,7 +65,6 @@ export default {
     },
     getClubPage: function(pageNum, pageSize) {
       var typeId = this.$route.query.typeId
-      console.log(typeId)
       this.$axios
         .get('/api/clubs', {
           params: {

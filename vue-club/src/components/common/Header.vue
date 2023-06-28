@@ -39,7 +39,7 @@
           <template slot="title">
             社团快讯
           </template>
-          <el-menu-item index="3-1" class=""
+          <el-menu-item index="3-1" class="view-dL5R0iFd"
             ><router-link
               :to="{ name: 'PassageList', query: { passageTypeId: 1 } }"
               tag="div"
@@ -143,31 +143,42 @@
 </template>
 
 <script>
+import router from '../../router'
+
 const OK = 200
 export default {
-	data() {
-		return {
-			activeIndex: '1',
-			adminAccessUrl: 'http://118.89.228.250:8012'
-		}
-	},
-	methods: {
-		getAdminUrl: function () {
-			this.$axios.get('/api/system/adminUrl').then(res => {
-				if (res.data.code == OK) {
-					this.adminAccessUrl = res.data.data
-				}
-			})
-		},
-		goAdminUrl: function () {
-			// window.location.href = this.adminAccessUrl
-			window.open(this.adminAccessUrl, '_blank')
-		}
-	},
-	created: function () {
-		this.getAdminUrl()
-	},
-	mounted: function () { }
+  data() {
+    return {
+      activeIndex: '1',
+      adminAccessUrl: 'http://118.89.228.250:8012',
+      user: null
+    }
+  },
+  computed: {
+    isLogin: function() {
+      const { user } = this.$store.state.user
+      return user !== null
+    }
+  },
+  methods: {
+    getAdminUrl: function() {
+      this.$axios.get('/api/system/adminUrl').then(res => {
+        if (res.data.code === OK) {
+          this.adminAccessUrl = res.data.data
+        }
+      })
+    },
+    goAdminUrl: function() {
+      router.push('/login')
+    },
+    goSiginPage: () => {
+      router.push('./sigin')
+    }
+  },
+  created: function() {
+    this.getAdminUrl()
+  },
+  mounted: function() {}
 }
 </script>
 
@@ -204,10 +215,47 @@ export default {
 }
 
 .header {
-	width: 1024px;
-	height: 70px;
-	line-height: 70px;
-	margin: 0 auto;
+  width: 1024px;
+  height: 70px;
+  line-height: 70px;
+  margin: 0 auto;
+}
+
+.items-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+.group_15 {
+  padding: 10px 7.72px 0;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  width: 1024px;
+  height: 70px;
+  line-height: 70px;
+  margin: 0 auto;
+}
+
+.view-dL5R0iFd:hover {
+  background: gradient(180deg, #ffffff 0%, #d9dfff 100%);
+  box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(40px);
+  border-radius: 0px 30px 30px 30px;
+  transform: translateX(20px);
+  cursor: pointer;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.text_1 {
+  color: rgb(55, 81, 254);
+  font-size: 36px;
+  font-family: Open Sans;
+  font-weight: 700;
+  line-height: 43px;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.Text:hover {
+  transform: translateX(10px) translateY(10px);
 }
 
 .items-start {
@@ -248,32 +296,19 @@ export default {
 }
 
 .el-menu.el-menu--horizontal a {
-	color: #fff;
+  color: #fff;
 }
 
 .rightMenu {
-	float: right;
-	height: 70px;
-	line-height: 70px;
-	background-color: #000000;
+  float: right;
+  height: 70px;
+  line-height: 70px;
+  background-color: #000000;
 }
 
 a {
-	text-decoration: none;
-	color: #eee;
-	font-size: 16px;
+  text-decoration: none;
+  color: #eee;
+  font-size: 16px;
 }
-
-/* @media screen and (min-width: 1196px) {
-	.phone-nav {
-		display: none;
-	}
-} */
-/* @media screen and (max-width: 600px) {
-	.computerNav {
-		display: none;
-	}
-	.phone-nav {
-		display: block;
-	}
-} */</style>
+</style>

@@ -77,6 +77,7 @@ export default {
     add: function() {
       this.addNews();
     },
+
     addNews: function() {
       this.$axios
         .post("/api/passages", this.passage)
@@ -169,7 +170,7 @@ export default {
       } else {
         this.file.fileTypeId = 5;
       }
-      console.log("chnage fileType");
+      console.log("change fileType");
     },
     goBack: function() {
       this.$router.back(-1);

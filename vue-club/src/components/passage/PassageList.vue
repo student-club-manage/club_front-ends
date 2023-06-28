@@ -7,10 +7,14 @@
         >
         <span class="large_type">社团快讯</span>
         >
-        <router-link :to="{
-          name: 'PassageList',
-          query: { typeId: newsPageVo.passageType.id }
-        }" class="news-title" v-if="newsPageVo.passageType != null">
+        <router-link
+          :to="{
+            name: 'PassageList',
+            query: { typeId: newsPageVo.passageType.id }
+          }"
+          class="news-title"
+          v-if="newsPageVo.passageType != null"
+        >
           {{ newsPageVo.passageType.type }}
         </router-link>
       </div>
@@ -28,25 +32,39 @@
         </div>
         <v-hr />
         <ul class="news-list" v-if="newsPageVo.passagePageInfo != null">
-          <li v-for="news in newsPageVo.passagePageInfo.list" :key="news.id" class="section_10 change">
+          <li
+            v-for="news in newsPageVo.passagePageInfo.list"
+            :key="news.id"
+            class="section_10 change"
+          >
             <!-- <div> -->
-            <router-link :to="{ name: 'Passage', params: { id: news.id } }" :key="news.id">{{ news.title }}</router-link>
+            <router-link
+              :to="{ name: 'Passage', params: { id: news.id } }"
+              :key="news.id"
+              >{{ news.title }}</router-link
+            >
             <span class="time">{{ news.publishTime }}</span>
             <!-- </div> -->
           </li>
         </ul>
       </el-main>
     </el-container>
-    <el-pagination v-if="newsPageVo.passagePageInfo != null" background layout="prev, pager, next"
-      :current-page.sync="currentPage" :total="newsPageVo.passagePageInfo.total" @current-change="refreshPasagePage"
-      :page-size="newsPageVo.passagePageInfo.pageSize"></el-pagination>
+    <el-pagination
+      v-if="newsPageVo.passagePageInfo != null"
+      background
+      layout="prev, pager, next"
+      :current-page.sync="currentPage"
+      :total="newsPageVo.passagePageInfo.total"
+      @current-change="refreshPasagePage"
+      :page-size="newsPageVo.passagePageInfo.pageSize"
+    ></el-pagination>
   </el-container>
 </template>
 
 <script>
-const OK = 200;
-import pasageTypeList from '@/components/passage/PassageTypeList.vue';
-import Hr from '@/components/common/Hr.vue';
+import pasageTypeList from '@/components/passage/PassageTypeList.vue'
+import Hr from '@/components/common/Hr.vue'
+const OK = 200
 export default {
   data() {
     return {
@@ -57,7 +75,7 @@ export default {
   },
   components: { pasageTypeList, 'v-hr': Hr },
   methods: {
-    getNewsPage: function (pageNum, pageSize) {
+    getNewsPage: function(pageNum, pageSize) {
       var typeId = this.$route.query.passageTypeId
       this.typeId = typeId
       this.$axios
@@ -76,7 +94,7 @@ export default {
           }
         })
     },
-    refreshPasagePage: function () {
+    refreshPasagePage: function() {
       this.getNewsPage(this.currentPage, 8)
     }
   },
@@ -99,70 +117,69 @@ export default {
   position: relative;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
 .change:hover {
   transform: translateX(15px);
   cursor: pointer;
   /* background: #2851e3; */
-    border:1px #2851e3 solid;
+  border: 1px #2851e3 solid;
   border-radius: 10px;
 }
-
 .site-nav {
-	float: left;
-	height: 70px;
-	line-height: 70px;
-	font-size: 20px;
+  float: left;
+  height: 70px;
+  line-height: 70px;
+  font-size: 20px;
 }
 
 .large_type {
-	margin: 0 5px;
+  margin: 0 5px;
 }
 
 .news-title-wrap .news-title {
-	display: block;
-	width: 120px;
-	font-size: 24px;
-	color: #1F51FF;
-	margin-bottom: 15px;
+  display: block;
+  width: 120px;
+  font-size: 24px;
+  color: #1f51ff;
+  margin-bottom: 15px;
 }
 
 .news-list li {
-	height: 32px;
-	line-height: 32px;
+  height: 32px;
+  line-height: 32px;
 }
 
 .news-list li > a {
-	display: inline-block;
-	float: left;
-	margin-left: 20px;
-	width: 170px;
-	height: 32px;
-	line-height: 32px;
-	text-align: left;
-	
-	-webkit-line-clamp: 1;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	white-space: normal;
+  display: inline-block;
+  float: left;
+  margin-left: 20px;
+  width: 170px;
+  height: 32px;
+  line-height: 32px;
+  text-align: left;
+
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }
 .news-list li > .time {
-	float: left;
-	margin-left: 75px;
+  float: left;
+  margin-left: 75px;
 }
 
 @media screen and (max-width: 600px) {
-	.el-header, .el-aside {
-		display: none;
-	}
-	.news-list li > a {
-		float: left;
-		width: 100px;
-	}
-	.news-list li > .time {
-		float: left;
-		margin-left: 30px;
-	}
+  .el-header,
+  .el-aside {
+    display: none;
+  }
+  .news-list li > a {
+    float: left;
+    width: 100px;
+  }
+  .news-list li > .time {
+    float: left;
+    margin-left: 30px;
+  }
 }
 </style>

@@ -112,7 +112,6 @@ export default {
           if (res.data.code === OK) {
             this.topActivityVo = res.data.data
             this.activityList = this.topActivityVo.activityList
-            console.log(this.topActivityVo)
           } else {
             this.$layer.alert('error')
           }

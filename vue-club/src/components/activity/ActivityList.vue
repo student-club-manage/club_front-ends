@@ -25,7 +25,7 @@
 				<v-hr />
 				<ul class="activity-list" v-if="activityPageVo.activityPageInfo != null">
 					<li v-for="activity in activityPageVo.activityPageInfo.list" class="section_10 change" :key="activity.id">
-						<router-link :to="{ name: 'Activity', params: { id: activity.id } }" class = "">{{ activity.activityName }}</router-link>
+						<router-link :to="{ name: 'Activity', params: { id: activity.id } }">{{ activity.activityName }}</router-link>
 						<span>{{ activity.publishTime }}</span>
 					</li>
 				</ul>
@@ -52,7 +52,6 @@ export default {
 	methods: {
 		getActivityPage: function (pageNum, pageSize) {
 			var typeId = this.$route.query.typeId;
-			console.log(typeId);
 			this.$axios
 				.get('/api/activities', {
 					params: {
@@ -62,7 +61,6 @@ export default {
 					}
 				})
 				.then(res => {
-					console.log(res.data.data);
 					if (res.data.code == OK) {
 						this.activityPageVo = res.data.data;
 					} else {
