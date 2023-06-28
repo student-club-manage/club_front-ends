@@ -54,7 +54,7 @@ export default {
         .then(res => {
           if (res.data.code == OK) {
             this.$message.success("登录成功");
-            this.$cookies.set("token", res.data.data, 60 * 30);
+            this.$cookies.set("token", res.data.data, 60 * 300);
             this.token = res.data.data;
             this.$router.push({ name: "Home" });
           } else {
