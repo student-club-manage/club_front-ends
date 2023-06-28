@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="background-color: #e9eef3;">
     <v-header v-show="!isFull" />
     <router-view class="main" />
     <v-footer v-show="!isFull" />

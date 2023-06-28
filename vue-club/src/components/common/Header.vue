@@ -125,17 +125,38 @@
         </el-submenu>
         <el-menu-item
           @click="goSiginPage"
-          v-show="!isLogin"
+          v-if="!isLogin"
           index="8"
           class="rightMenu"
           ><a href="#">注册</a></el-menu-item
         >
         <el-menu-item
-          @click="goAdminUrl"
-          v-show="!isLogin"
+          v-else-if="userInfo.roleId === 4"
+          index="8"
+          class="rightMenu"
+          ><i class="el-icon-edit">welcome</i></el-menu-item
+        >
+
+        <el-menu-item
+          @click="signIn"
+          v-if="!isLogin"
           index="9"
           class="rightMenu"
           ><a href="#">登录</a></el-menu-item
+        >
+        <el-menu-item
+          @click="signOut"
+          v-if="isLogin"
+          index="9"
+          class="rightMenu"
+          ><a href="#">退出</a></el-menu-item
+        >
+        <el-menu-item
+          @click="goAdminUrl"
+          v-if="userInfo && userInfo.roleId !== 4"
+          index="10"
+          class="rightMenu"
+          ><a href="#">进入后台</a></el-menu-item
         >
       </el-menu>
     </div>
@@ -158,9 +179,24 @@ export default {
     isLogin: function() {
       const { user } = this.$store.state.user
       return user !== null
+    },
+    userInfo: function() {
+      return this.$store.state.user.user || null
     }
   },
   methods: {
+    signOut: function() {
+      this.$store.dispatch('user/setUser', null)
+      localStorage.removeItem('user')
+
+      this.$message({
+        message: '退出成功',
+        type: 'success'
+      })
+    },
+    signIn: function() {
+      router.push('/login')
+    },
     getAdminUrl: function() {
       this.$axios.get('/api/system/adminUrl').then(res => {
         if (res.data.code === OK) {
@@ -169,7 +205,7 @@ export default {
       })
     },
     goAdminUrl: function() {
-      router.push('/login')
+      window.open('http://localhost:8080/', '_blank')
     },
     goSiginPage: () => {
       router.push('./sigin')
@@ -207,12 +243,14 @@ export default {
   left: 0;
   right: 0;
   top: 0;
+  z-index: 999;
   height: 70px;
 }
 
 .phone-nav {
   display: none;
 }
+
 .header {
   width: 1024px;
   height: 70px;
@@ -240,6 +278,41 @@ export default {
   backdrop-filter: blur(40px);
   border-radius: 0px 30px 30px 30px;
   transform: translateX(20px);
+  cursor: pointer;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.text_1 {
+  color: rgb(55, 81, 254);
+  font-size: 36px;
+  font-family: Open Sans;
+  font-weight: 700;
+  line-height: 43px;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.Text:hover {
+  transform: translateX(10px) translateY(10px);
+}
+
+.items-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+.group_15 {
+  padding: 10px 7.72px 0;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  width: 1024px;
+  height: 70px;
+  line-height: 70px;
+  margin: 0 auto;
+}
+
+.view-dL5R0iFd:hover {
+  background: gradient(180deg, #ffffff 0%, #d9dfff 100%);
+  box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(40px);
   cursor: pointer;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }

@@ -1,5 +1,5 @@
 const state = () => ({
-  user: null
+  user: localStorage.getItem('user') || null
 })
 
 const mutations = {

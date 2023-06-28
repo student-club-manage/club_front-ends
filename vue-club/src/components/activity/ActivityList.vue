@@ -84,6 +84,11 @@ export default {
 </script>
 
 <style scoped="scoped">
+.link_style{
+	font-weight: 600;
+    color: #222;
+    font-size: 14px
+}
 .section_10 {
 	/* padding: 22px 15px 22px 15.5px; */
 	/* background-color: #ffffff; */

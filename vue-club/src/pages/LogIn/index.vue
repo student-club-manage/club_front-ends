@@ -1,4 +1,6 @@
 <script>
+import router from '../../router'
+
 const OK = 200
 export default {
   data() {
@@ -18,7 +20,11 @@ export default {
           // this.$layer.msg(res.data);
           if (res.data.code === OK) {
             this.$message.success('登录成功')
-            console.log('user', res.data)
+            const { data } = res.data
+
+            this.$store.dispatch('user/setUser', data)
+            localStorage.setItem('user', JSON.stringify(data))
+            router.push('/')
           } else {
             this.$message.error(res.data.message)
             this.refreshCode()
