@@ -6,10 +6,10 @@
     <el-form-item label="用户性别"
       ><el-input v-model="user.sex"></el-input
     ></el-form-item>
-    <quill-editor
+    <!-- <quill-editor
       v-model="user.introduce"
       :options="editorOption"
-    ></quill-editor>
+    ></quill-editor> -->
     <el-form-item label="用户账号"
       ><el-input v-model="user.account"></el-input
     ></el-form-item>
@@ -17,8 +17,8 @@
       ><el-input v-model="user.password"></el-input
     ></el-form-item>
 
-    <el-form-item label="用户类型" prop="userTypeId">
-      <el-select v-model="user.userTypeId" placeholder="请选择用户类型">
+    <el-form-item label="用户类型" prop="roleId">
+      <el-select v-model="user.roleId" placeholder="请选择用户类型">
         <el-option
           v-for="userType in userTypeList"
           :key="userType.id"
@@ -49,8 +49,12 @@ export default {
       },
       imageUrl: "",
       fileList: [],
-      file: { id: 0 }
+      file: { id: 0 },
+      roleId: 0
     };
+  },
+  components: {
+    props: ["id"]
   },
   methods: {
     get: function(id) {
@@ -112,14 +116,18 @@ export default {
   created() {
     var id = this.$route.query.id;
     this.get(id);
-    // this.getuserTypeList();
+    this.getuserTypeList();
   },
   watch: {
     $route(to, from) {
+      var id = this.$route.params.id;
+      this.get(id);
       this.getuserTypeList();
     }
   }
 };
 </script>
 
-<style scoped="scoped"></style>
+<style scoped="scoped">
+@import "../../css/common.css";
+</style>
