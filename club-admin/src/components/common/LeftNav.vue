@@ -36,7 +36,7 @@
           >活动列表</router-link
         ></el-menu-item
       >
-      <el-menu-item index="2-2"
+      <el-menu-item v-show="userRole !== 3" index="2-2"
         ><router-link :to="{ name: 'AddActivity' }" tag="div"
           >添加活动</router-link
         ></el-menu-item
@@ -72,7 +72,7 @@
         ></el-menu-item
       >
     </el-submenu>
-    <el-submenu index="4">
+    <el-submenu v-show="userRole !== 3" index="4">
       <template slot="title">
         用户管理
       </template>
@@ -137,6 +137,7 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      userRole: null,
       accessFrontUrl: "http://localhost:8011/"
     };
   },
@@ -151,6 +152,18 @@ export default {
   },
   created: function() {
     this.getFronUrl();
+
+    this.token = this.$cookies.get("token");
+
+    this.$axios
+      .get("/api/users/getUser", {
+        params: {
+          token: this.token
+        }
+      })
+      .then(res => {
+        this.userRole = res.data.data.roleId;
+      });
   }
 };
 </script>

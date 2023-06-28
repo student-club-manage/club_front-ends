@@ -1,6 +1,5 @@
 <template>
-  <el-form class="" :model="file" label-width="80px">
-    <!-- <el-form-item label="文件名称"><el-input v-model="file.fileName"></el-input></el-form-item> -->
+  <el-form class="" :model="file" label-width="150px">
     <el-form-item>
       <el-upload
         class="upload-demo"
@@ -19,6 +18,7 @@
         </div>
       </el-upload>
     </el-form-item>
+    <el-form-item label="选择将要传输的类型"></el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
       <el-button @click="goBack">返回</el-button>
