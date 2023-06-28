@@ -35,6 +35,7 @@ export default {
       this.$axios.get('/api/clubs/' + num).then(res => {
         if (res.data.code === OK) {
           this.club = res.data.data
+          console.log(this.club)
         } else {
           this.$layer.alert(res.data.data)
         }
