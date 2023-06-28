@@ -77,11 +77,12 @@ export default {
   },
   methods: {
     handleChange: function(file, fileList) {
-      var response = file.response;
+      let response = file.response;
       if (response != null && response.code == OK) {
         console.log(response.data);
+        this.file.fileName = this.club.num;
         this.file.filePath = response.data;
-        this.file.fileName = this.getFileName(this.file.filePath);
+        console.log("filePath", this.file.filePath);
         console.log(this.file.fileName);
         console.log(this.club.fileId);
         this.saveFile();
@@ -94,10 +95,8 @@ export default {
       console.log(file);
     },
     saveFile: function() {
-      this.$axios.post("/api/files/activity", this.file).then(res => {
+      this.$axios.post("/api/files/club", this.file).then(res => {
         if (res.data.code === OK) {
-          // this.$message.success('添加活动成功');
-          // this.$router.push({ name: 'ActivityList' });
         } else {
           this.$message({
             message: res.data.message,

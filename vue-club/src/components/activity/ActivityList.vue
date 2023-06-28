@@ -86,7 +86,7 @@ export default {
           }
         })
         .then(res => {
-          if (res.data.code == OK) {
+          if (res.data.code === OK) {
             this.activityPageVo = res.data.data
           } else {
             this.$layer.alert(res.data.data)
