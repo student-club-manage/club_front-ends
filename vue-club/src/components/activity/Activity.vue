@@ -1,5 +1,6 @@
 <template>
   <div class="bg" v-if="activity != null">
+    <img class="gif1" :src="require('../../../res/2.gif')" />
     <div class="title">{{ activity.activityName }}</div>
     <div class="wrap">
       <div class="time">
@@ -76,8 +77,14 @@ export default {
 .title {
   display: block;
   font-size: 24px;
-  color: #1f51ff;
   margin-top: 10px;
+  color: var(--colors-white, #000000);
+  text-shadow: 0px 4px 4px 0px #e51515bb;
+  font-size: 45px;
+  font-family: ZCOOL KuaiLe;
+  line-height: 70px;
+  letter-spacing: -1px;
+  transform: rotate(-8.672deg);
 }
 .wrap {
   float: right;
@@ -102,5 +109,20 @@ export default {
 .show-image {
   width: 420px;
   height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 126.361px;
+  flex-shrink: 0;
+}
+
+.gif1 {
+  position: fixed; /* 使用 fixed 定位，使元素始终悬浮在视口的特定位置 */
+  top: 10px; /* 距离顶部的距离，根据需要进行调整 */
+  right: 10px; /* 距离右侧的距离，根据需要进行调整 */
+  z-index: 1000; /* 设置较高的 z-index 值以确保元素在其他元素之上 */
+  width: 150px;
+  height: 150px;
 }
 </style>
