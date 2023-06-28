@@ -4,9 +4,10 @@
       <router-link
         :to="{ name: 'Passage', params: { id: carousel.passageId } }"
       >
-        <img
+        <el-image
           :src="'http://192.168.43.162:8013/fileServer/' + carousel.filePath"
           alt="carousel.fileName"
+          fit="cover"
           class="slider-img"
         />
       </router-link>
@@ -62,7 +63,7 @@ export default {
 
 .slider-img {
   cursor: pointer;
-  width: 1196px;
+  height: 100%;
 }
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
