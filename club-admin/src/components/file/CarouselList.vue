@@ -1,7 +1,7 @@
 <template>
   <div v-if="filePage != null">
-    <el-button type="success" icon="el-icon-plus" @click="addPage()" size="mini"
-      >添加</el-button
+    <el-button class="add-carousel-btn" type="success" icon="el-icon-plus" @click="addPage()" size="mini"
+      >添加轮播图</el-button
     >
     <el-table :data="fileData" stripe style="width:100%" border>
       <el-table-column prop="id" label="num" width="100"></el-table-column>
@@ -28,13 +28,6 @@
             @click="editPage(scope.row)"
             size="mini"
             >编辑</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-plus"
-            @click="addPage()"
-            size="mini"
-            >添加</el-button
           >
           <el-button
             type="danger"
@@ -143,4 +136,24 @@ export default {
 };
 </script>
 
-<style scoped="scoped"></style>
+<style scoped="scoped">
+.add-carousel-btn {
+  background-color: #42b983;
+  border: 1px solid #42b983;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.add-carousel-btn {
+  background-color: #35a16c;
+  border-color: #35a16c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@import "../../css/common.css";
+</style>
