@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-if="activity != null">
+  <div class="bg" v-if="activity != null">
     <div class="title">{{ activity.activityName }}</div>
     <div class="wrap">
       <div class="time">
@@ -25,8 +25,9 @@
         file.fileName
       }}</a>
     </div>
-
     <Share />
+
+    <button class="apply" @click="applyToActivity">申请加入</button>
   </div>
 </template>
 
@@ -59,10 +60,46 @@ export default {
         return true
       }
       return false
+    },
+    applyToActivity: function() {
+      console.log(this.activity);
+      // 发送申请请求到后端
+      this.$axios
+        .post('/other/clubMember/', {
+          id: 0,
+          clubId: this.activity.id,
+          userId: this.isFull.id
+        })
+        .then(res => {
+          console.log(res)
+          if (res.data.code === OK) {
+            setTimeout(() => {
+              this.$message({
+                message: '申请已发送',
+                type: 'success'
+              })
+            }, 900)
+            // this.$message.success('申请已发送');
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          this.$message.error('发送申请失败')
+        })
     }
   },
   created() {
     this.get()
+  },
+  computed: {
+    isFull() {
+      return this.$store.state.user.user
+    }
   },
   watch: {
     $route(to, from) {
@@ -76,8 +113,14 @@ export default {
 .title {
   display: block;
   font-size: 24px;
-  color: #1f51ff;
   margin-top: 10px;
+  color: var(--colors-white, #000000);
+  text-shadow: 0px 4px 4px 0px #e51515bb;
+  font-size: 45px;
+  font-family: ZCOOL KuaiLe;
+  line-height: 70px;
+  letter-spacing: -1px;
+  transform: rotate(-8.672deg);
 }
 .wrap {
   float: right;
@@ -102,5 +145,27 @@ export default {
 .show-image {
   width: 420px;
   height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 126.361px;
+  flex-shrink: 0;
+}
+
+.apply {
+  width: 269px;
+  height: 68px;
+  border-radius: 24px;
+  background: #a5a6f6;
+  box-shadow: -1px -9px 20px 0px rgba(0, 0, 0, 0.23) inset,
+    1px 9px 24px 0px rgba(125, 125, 237, 0.6) inset, 0px 2px 11px 0px #9394db;
+  color: #fff;
+  font-size: 24px;
+  font-family: Roboto;
+  font-weight: 600;
+  position: fixed; /* 使用 fixed 定位 */
+  bottom: 150px; /* 距离底部的距离，根据需要进行调整 */
+  right: 10px; /* 距离右侧的距离，根据需要进行调整 */
 }
 </style>
