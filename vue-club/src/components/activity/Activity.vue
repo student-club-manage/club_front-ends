@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-if="activity != null">
+  <div class="bg" v-if="activity != null">
     <div class="title">{{ activity.activityName }}</div>
     <div class="wrap">
       <div class="time">
