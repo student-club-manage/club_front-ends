@@ -14,7 +14,9 @@
             :key="url.src"
           />
         </h2>
-        <button class="apply" @click="applyToClub">申请加入</button>
+        <button class="apply" @click="applyToClub" :disabled="isApplied">
+          {{ isApplied ? '已申请' : '申请加入' }}
+        </button>
       </div>
     </div>
   </div>
@@ -26,7 +28,8 @@ export default {
   data() {
     return {
       club: {},
-      imageList: [] // 社团图片列表
+      imageList: [], // 社团图片列表
+      isApplied: false // 是否已申请
     }
   },
   methods: {
@@ -51,21 +54,43 @@ export default {
         }
       })
     },
+    getApplyStatus: function() {
+      // 从后端获取申请状态
+      this.$axios
+      .get("/other/clubApply/clubuser_id/", {
+        params: {
+          userid: this.isFull.id,
+          clubid: this.club.num
+        }
+      })
+      .then(res => {
+        if (res.data.code === OK) {
+          console.log('status:', res.data.data)
+          // this.isApplied = res.data.data;
+        } else {
+          this.$layer.alert(res.data.data);
+        }
+      })
+    },
     applyToClub: function() {
-      console.log(this.club)
       // 发送申请请求到后端
       this.$axios
-        .post('/other/clubApply/', this.club)
+        .post('/other/clubApply/', {
+          id: 0,
+          clubId: this.club.num,
+          userId: this.isFull.id,
+          isJoin: 0
+        })
         .then(res => {
+          console.log(res)
           if (res.data.code === OK) {
-            console.log(res.data.data)
             setTimeout(() => {
               this.$message({
                 message: '申请已发送',
                 type: 'success'
               })
-            }, 900)
-            // this.$message.success('申请已发送');
+            }, 900);
+            this.isApplied = true; // 设置申请状态为已申请
           } else {
             this.$message({
               message: res.data.message,
@@ -74,14 +99,15 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
-          this.$message.error('发送申请失败')
+          console.error(err);
+          this.$message.error('发送申请失败');
         })
     }
   },
   created() {
-    this.get()
-    this.$store.dispatch('screen/setToFull')
+    this.get();
+    this.$store.dispatch('screen/setToFull');
+    this.getApplyStatus(); // 获取申请状态
   },
   computed: {
     imageUrls() {
@@ -90,6 +116,9 @@ export default {
           src: `/fileServer/fileServer/${item.filePath}`
         }
       })
+    },
+    isFull() {
+      return this.$store.state.user.user
     }
   },
   watch: {
