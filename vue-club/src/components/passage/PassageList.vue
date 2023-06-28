@@ -130,9 +130,11 @@ export default {
   line-height: 70px;
   font-size: 20px;
 }
+
 .large_type {
   margin: 0 5px;
 }
+
 .news-title-wrap .news-title {
   display: block;
   width: 120px;
@@ -140,6 +142,7 @@ export default {
   color: #1f51ff;
   margin-bottom: 15px;
 }
+
 .news-list li {
   height: 32px;
   line-height: 32px;
