@@ -15,7 +15,6 @@
           ></el-menu-item
         >
         <el-submenu index="2" class="view-dL5R0iFd">
-          <!-- transform= "translateX(10px) translateY(10px)" -->
           <template slot="title">
             社团概况
           </template>
@@ -231,7 +230,6 @@ export default {
   padding-bottom: 10px;
   background: linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%);
   box-shadow: 0px 20px 40px rgba(147, 231, 221, 0.3);
-  border-radius: 10px;
   width: 150px;
   height: 50px;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -276,8 +274,6 @@ export default {
   background: gradient(180deg, #ffffff 0%, #d9dfff 100%);
   box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(40px);
-  border-radius: 0px 30px 30px 30px;
-  transform: translateX(20px);
   cursor: pointer;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -289,10 +285,6 @@ export default {
   font-weight: 700;
   line-height: 43px;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.Text:hover {
-  transform: translateX(10px) translateY(10px);
 }
 
 .items-start {
@@ -324,10 +316,6 @@ export default {
   font-weight: 700;
   line-height: 43px;
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.Text:hover {
-  transform: translateX(10px) translateY(10px);
 }
 
 .el-menu.el-menu--horizontal a {

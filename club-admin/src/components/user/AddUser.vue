@@ -36,7 +36,7 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
-      <el-button>取消</el-button>
+      <el-button @click="goBack">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -59,13 +59,9 @@ export default {
   },
   methods: {
     add: function() {
-      console.log(this.user);
       this.$axios
         .post("/api/users/", this.user)
         .then(res => {
-          console.log(this.user);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message({
               message: "添加用户成功",
@@ -93,6 +89,9 @@ export default {
           this.$message.error(res.data.data);
         }
       });
+    },
+    goBack: function() {
+      this.$router.back(-1);
     }
   },
   created() {

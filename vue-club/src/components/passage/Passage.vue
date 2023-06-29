@@ -72,7 +72,7 @@ export default {
 .title {
   display: block;
   font-size: 24px;
-  color: #1F51FF;
+  color: #1f51ff;
   margin-top: 10px;
 }
 .time-wrap {
@@ -92,7 +92,7 @@ export default {
   text-align: left;
 }
 .show-image {
-  width: 420px;
-  height: 360px;
+  width: 800px;
+  object-fit: contain;
 }
 </style>

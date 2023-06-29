@@ -37,16 +37,26 @@
         </div>
       </el-upload>
     </el-form-item>
-    <el-form-item label="活动类型" prop="activityTypeId">
-      <el-select v-model="activity.activityTypeId" placeholder="请选择活动类型">
+    <el-form-item label="所属社团" prop="activityTypeId">
+      <el-select v-model="activity.activityTypeId" placeholder="请选择社团类型">
+        <el-option
+          v-for="clubList in clubTypeList"
+          :key="clubList.num"
+          :label="clubList.name"
+          :value="clubList.num"
+        ></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="活动类型" prop="clubId">
+      <el-select v-model="activity.clubId" placeholder="请选择活动类型">
         <el-option
           v-for="activityType in activityTypeList"
           :key="activityType.id"
           :label="activityType.type"
           :value="activityType.id"
-        ></el-option>
-      </el-select>
-    </el-form-item>
+        ></el-option> </el-select
+    ></el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
       <el-button @click="goBack">返回</el-button>
@@ -70,7 +80,8 @@ export default {
       imageUrl: "",
       fileList: [],
       file: { activityId: 0 },
-      relativePath: "/images/activity/"
+      relativePath: "/images/activity/",
+      clubTypeList: null
     };
   },
   methods: {
@@ -78,12 +89,8 @@ export default {
       this.addActivitie();
     },
     addActivitie: function() {
-      console.log(this.activity);
       this.$axios.post("/api/activities/", this.activity).then(res => {
-        console.log(this.activity);
-        console.log(res.data);
         if (res.data.code == OK) {
-          console.log(res.data.data);
           this.file.activityId = res.data.data;
           this.$refs.upload.submit();
           setTimeout(() => {
@@ -103,6 +110,22 @@ export default {
         }
       });
     },
+    getClubPage: function(pageNum, pageSize) {
+      this.$axios
+        .get("/api/clubs", {
+          params: {
+            pageNum: pageNum,
+            pageSize: pageSize
+          }
+        })
+        .then(res => {
+          if (res.data.code === OK) {
+            this.clubTypeList = res.data.data.list;
+          } else {
+            this.$message.error(res.data.data);
+          }
+        });
+    },
     getActivityTypeList: function() {
       this.$axios.get("/api/activityTypes").then(res => {
         if (res.data.code == OK) {
@@ -115,20 +138,15 @@ export default {
     handleChange: function(file, fileList) {
       var response = file.response;
       if (response != null && response.code == OK) {
-        console.log(response.data);
         this.file.filePath = response.data;
         this.file.fileName = this.getFileName(this.file.filePath);
-        console.log(this.file.fileName);
-        console.log(this.activity.fileId);
         this.saveFile();
         this.$message.success("上传文件成功");
       }
       this.fileList = fileList.slice(-3);
     },
 
-    handlePreview: function(file) {
-      console.log(file);
-    },
+    handlePreview: function(file) {},
     saveFile: function() {
       this.$axios.post("/api/files/activity", this.file).then(res => {
         if (res.data.code === OK) {
@@ -167,6 +185,7 @@ export default {
   },
   created() {
     this.getActivityTypeList();
+    this.getClubPage(100, 100);
   },
   watch: {
     $route(to, from) {

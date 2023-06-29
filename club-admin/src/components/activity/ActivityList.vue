@@ -139,7 +139,6 @@ export default {
           if (res.data.code == OK) {
             this.activityPage = res.data.data;
             this.activityData = this.activityPage.list;
-            console.log(this.activityData);
           } else {
             this.$message.error(res.data.data);
           }
@@ -147,7 +146,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditActivity", query: { id: id } });
     },
     addPage: function() {

@@ -1,11 +1,11 @@
 <template>
   <div v-if="clubPage != null">
     <el-form :inline="true" size="small">
-      <el-form-item label="社团名称">
+      <el-form-item label="用户">
         <el-input
-          placeholder="请输入社团名称"
+          placeholder="请输入用户Id"
           prefix-icon="el-icon-search"
-          v-model="clubName"
+          v-model="userId"
           class="input-with-select"
           width="120px"
         ></el-input>
@@ -26,14 +26,6 @@
           >查询</el-button
         >
       </el-form-item>
-      <el-button
-        class="add-club-btn"
-        type="success"
-        icon="el-icon-plus"
-        @click="addPage()"
-        size="small"
-        >添加社团</el-button
-      >
     </el-form>
     <el-table
       :data="clubData"
@@ -44,41 +36,38 @@
       size="mini"
     >
       <el-table-column
-        prop="num"
-        label="社团编号"
+        prop="userId"
+        label="用户Id"
         :sortable="true"
       ></el-table-column>
       <el-table-column
-        prop="name"
-        label="社团名称"
+        prop="clubId"
+        label="社团Id"
         :sortable="true"
       ></el-table-column>
       <el-table-column
-        prop="createTime"
-        label="创建时间"
+        prop="isJoin"
+        label="是否通过"
         width="140"
-        :sortable="true"
-      ></el-table-column>
-      <el-table-column
-        prop="clubType.type"
-        label="社团类型"
         :sortable="true"
       ></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
+            :disabled="!scope.row.operation"
             type="primary"
-            icon="el-icon-edit"
-            @click="editPage(scope.row)"
+            icon="el-icon-success"
+            @click="setAdmit(scope.row)"
             size="mini"
-            >编辑</el-button
+            >同意</el-button
           >
           <el-button
+            :disabled="!scope.row.operation"
             type="danger"
             icon="el-icon-delete"
-            @click="deleteClub(scope.row)"
+            @click="refuse(scope.row)"
             size="mini"
-            >删除</el-button
+            >拒绝</el-button
           >
         </template>
       </el-table-column>
@@ -104,16 +93,65 @@ export default {
     return {
       clubPage: {},
       input: "",
+      token: null,
       clubData: [],
       clubTypeList: [],
-      clubName: null,
+      userId: null,
       clubTypeId: null,
       currentPage: 1,
-      pageSize: this.GLOBAL.pageSize
+      pageSize: this.GLOBAL.pageSize,
+      adminInfo: null
     };
   },
   components: {},
   methods: {
+    setAdmit: function(row) {
+      this.$axios
+        .put("/api/clubApply", {
+          id: row.id,
+          userId: row.userId,
+          clubId: row.clubId,
+          isJoin: 1
+        })
+        .then(res => {
+          console.log(res);
+          const {
+            status,
+            data: { data }
+          } = res;
+
+          if (status === OK) {
+            this.$message.success("操作成功");
+            row.operation = false;
+          } else {
+            this.$message.error(data);
+          }
+        });
+    },
+    refuse: function(row) {
+      this.$axios
+        .put("/api/clubApply", {
+          id: row.id,
+          userId: row.userId,
+          clubId: row.clubId,
+          isJoin: -1
+        })
+        .then(res => {
+          console.log(res);
+          const {
+            status,
+            data: { data }
+          } = res;
+
+          if (status === OK) {
+            this.$message.success("操作成功");
+            row.operation = false;
+            row.isJoin = "已拒绝";
+          } else {
+            this.$message.error(data);
+          }
+        });
+    },
     getClubPage: function(pageNum, pageSize) {
       this.$axios
         .get("/api/clubs", {
@@ -162,7 +200,7 @@ export default {
       });
     },
     find: function() {
-      this.getClubPage(this.currentPage, this.pageSize);
+      console.log(this.userId, this.clubTypeId);
     },
     refreshClubPage: function(page) {
       this.currentPage = page;
@@ -190,6 +228,53 @@ export default {
     $route(to, from) {
       this.getClubPage(this.currentPage, this.pageSize);
     }
+  },
+  created() {
+    this.token = this.$cookies.get("token");
+
+    this.$axios
+      .get("/api/users/getUser", {
+        params: {
+          token: this.token
+        }
+      })
+      .then(res => {
+        const { data, code } = res.data;
+
+        if (code === OK) {
+          this.adminInfo = data;
+          this.$axios
+            .get(`/api/clubApply/get_all_apply/${data.id}`)
+            .then(res => {
+              const {
+                status,
+                data: { data }
+              } = res;
+
+              if (status === OK) {
+                console.log(data);
+                data.forEach(item => {
+                  if (item.isJoin === 0) {
+                    item.isJoin = "待审核";
+                    item.operation = true;
+                  } else if (item.isJoin === 1) {
+                    item.isJoin = "已加入";
+                    item.operation = false;
+                  } else if (item.isJoin === -1) {
+                    item.isJoin = "已拒绝";
+                    item.operation = false;
+                  }
+                });
+                console.log(data);
+                this.clubData = data;
+              } else {
+                this.$message.error(res.data.data);
+              }
+            });
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
   }
 };
 </script>

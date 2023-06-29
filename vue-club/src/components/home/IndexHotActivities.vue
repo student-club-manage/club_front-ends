@@ -13,12 +13,11 @@
         :to="{ name: 'Activity', params: { id: activityImg.activityId } }"
       >
         <img
-          :src="'/fileServer' + activityImg.filePath"
+          :src="'/fileServer/fileServer' + activityImg.filePath"
           alt="activityImg.fileName"
           class="show-picture"
         />
       </router-link>
-      <!-- <a class="img-show" href="#"><img :src="'/fileServer'+img.filePath" alt="img.fileName" class="show-picture" /></a> -->
     </el-col>
   </div>
 </template>
@@ -70,5 +69,6 @@ export default {
   height: 220px;
   padding: 5px;
   cursor: pointer;
+  object-fit: cover;
 }
 </style>

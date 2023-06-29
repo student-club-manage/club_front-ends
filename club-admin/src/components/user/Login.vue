@@ -52,14 +52,10 @@ export default {
       this.$axios
         .post("/api/users/login", this.user)
         .then(res => {
-          console.log(this.user);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message.success("登录成功");
-            this.$cookies.set("token", res.data.data, 60 * 30);
+            this.$cookies.set("token", res.data.data, 60 * 300);
             this.token = res.data.data;
-            console.log(this.token);
             this.$router.push({ name: "Home" });
           } else {
             this.$message.error(res.data.message);
@@ -72,7 +68,6 @@ export default {
     },
     refreshCode: function() {
       this.captchaUrl = "/api/users/getKaptcha?time=" + new Date().getTime();
-      console.log("更新" + this.captchaUrl);
     },
     resetForm: function() {},
     tryToAminPage: function() {

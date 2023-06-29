@@ -79,21 +79,15 @@ export default {
     handleChange: function(file, fileList) {
       let response = file.response;
       if (response != null && response.code == OK) {
-        console.log(response.data);
         this.file.fileName = this.club.num;
         this.file.filePath = response.data;
-        console.log("filePath", this.file.filePath);
-        console.log(this.file.fileName);
-        console.log(this.club.fileId);
         this.saveFile();
         this.$message.success("上传文件成功");
       }
       this.fileList = fileList.slice(-3);
     },
 
-    handlePreview: function(file) {
-      console.log(file);
-    },
+    handlePreview: function(file) {},
     saveFile: function() {
       this.$axios.post("/api/files/club", this.file).then(res => {
         if (res.data.code === OK) {
@@ -126,9 +120,7 @@ export default {
     },
     add: function() {
       this.$axios.post("/api/clubs/", this.club).then(res => {
-        console.log(res.data);
         if (res.data.code == OK) {
-          console.log(res.data.data);
           this.file.clubId = res.data.data;
           this.$refs.upload.submit();
           setTimeout(() => {
