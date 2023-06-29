@@ -58,11 +58,7 @@ export default {
   },
   methods: {
     get: function(id) {
-      console.log(this.user);
       this.$axios.get("/api/users/" + id).then(res => {
-        console.log(this.user);
-        // this.$layer.msg(res.data);
-        console.log(res.data);
         if (res.data.code == OK) {
           this.user = res.data.data;
         } else {
@@ -74,13 +70,9 @@ export default {
       });
     },
     update: function() {
-      console.log(this.user);
       this.$axios
         .put("/api/users/", this.user)
         .then(res => {
-          console.log(this.user);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message({
               message: "更新用户成功",

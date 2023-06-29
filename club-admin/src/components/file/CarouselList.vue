@@ -1,6 +1,11 @@
 <template>
   <div v-if="filePage != null">
-    <el-button class="add-carousel-btn" type="success" icon="el-icon-plus" @click="addPage()" size="mini"
+    <el-button
+      class="add-carousel-btn"
+      type="success"
+      icon="el-icon-plus"
+      @click="addPage()"
+      size="mini"
       >添加轮播图</el-button
     >
     <el-table :data="fileData" stripe style="width:100%" border>
@@ -93,7 +98,6 @@ export default {
     },
     editPage: function(row) {
       var passageId = row.passageId;
-      console.log(passageId);
       this.$router.push({ name: "EditPassage", query: { id: passageId } });
     },
     addPage: function() {

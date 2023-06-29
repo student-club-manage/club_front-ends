@@ -92,7 +92,7 @@ export default {
   text-align: left;
 }
 .show-image {
-  width: 420px;
-  height: 360px;
+  width: 800px;
+  object-fit: contain;
 }
 </style>

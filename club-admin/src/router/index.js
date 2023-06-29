@@ -172,6 +172,11 @@ export default new Router({
           name: "UserList",
           path: "users",
           component: resolve => require(["@/components/user/UserList"], resolve)
+        },
+        {
+          name: "manageApply",
+          path: "manageapply",
+          component: resolve => require(["../pages/manageApply"], resolve)
         }
       ]
     },

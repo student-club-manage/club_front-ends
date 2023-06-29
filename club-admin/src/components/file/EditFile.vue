@@ -42,7 +42,6 @@ export default {
   methods: {
     get: function(id) {
       this.$axios.get("/api/files/" + id).then(res => {
-        console.log(res.data);
         if (res.data.code == OK) {
           this.file = res.data.data;
         } else {
@@ -53,11 +52,11 @@ export default {
 
     update: function() {
       this.$axios
-        .put("/api/files/update/" + this.file.id + "/" + this.fileTypeId, this.file)
+        .put(
+          "/api/files/update/" + this.file.id + "/" + this.fileTypeId,
+          this.file
+        )
         .then(res => {
-          console.log("test:"+"/api/files/update/" + this.file.id + "/" + this.file.fileTypeId);
-          // this.$layer.msg(res.data);
-          console.log(res.data);
           if (res.data.code == OK) {
             this.$message.success("更新文章成功");
             this.$router.push({ name: "FileList" });
@@ -72,7 +71,6 @@ export default {
     getFileTypeList: function() {
       this.$axios.get("/api/fileTypes").then(res => {
         if (res.data.code == OK) {
-          console.log(res.data.data);
           this.fileTypeList = res.data.data;
         } else {
           this.$message.error(res.data.data);

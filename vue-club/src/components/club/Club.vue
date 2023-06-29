@@ -14,8 +14,12 @@
             :key="url.src"
           />
         </h2>
-        <button class="apply" @click="applyToClub" :disabled="isApplied">
-          {{ isApplied ? '已申请' : '申请加入' }}
+        <button
+          class="apply"
+          @click="applyToClub"
+          :disabled="!isApplied.status"
+        >
+          {{ isApplied.text }}
         </button>
       </div>
     </div>
@@ -29,7 +33,10 @@ export default {
     return {
       club: {},
       imageList: [], // 社团图片列表
-      isApplied: false // 是否已申请
+      isApplied: {
+        text: '点击申请',
+        status: true
+      } // 是否已申请
     }
   },
   methods: {
@@ -38,7 +45,7 @@ export default {
       this.$axios.get('/api/clubs/' + num).then(res => {
         if (res.data.code === OK) {
           this.club = res.data.data
-          console.log(this.club)
+          this.getApplyStatus() // 获取申请状态
         } else {
           this.$layer.alert(res.data.data)
         }
@@ -57,20 +64,27 @@ export default {
     getApplyStatus: function() {
       // 从后端获取申请状态
       this.$axios
-      .get("/other/clubApply/clubuser_id/", {
-        params: {
-          userid: this.isFull.id,
-          clubid: this.club.num
-        }
-      })
-      .then(res => {
-        if (res.data.code === OK) {
-          console.log('status:', res.data.data)
-          // this.isApplied = res.data.data;
-        } else {
-          this.$layer.alert(res.data.data);
-        }
-      })
+        .get(`/other/clubApply/clubuser_id/${this.isFull.id}/${this.club.num}`)
+        .then(res => {
+          if (res.data.code === OK) {
+            const {
+              data: { data }
+            } = res
+
+            data.forEach(item => {
+              this.isApplied.status = false
+              if (item.isJoin === 0) {
+                this.isApplied.text = '已申请,等待审核'
+              } else if (item.isJoin === 1) {
+                this.isApplied.text = '已加入'
+              } else if (item.isJoin === -1) {
+                this.isApplied.text = '已拒绝'
+              }
+            })
+          } else {
+            this.$layer.alert(res.data.data)
+          }
+        })
     },
     applyToClub: function() {
       // 发送申请请求到后端
@@ -82,15 +96,15 @@ export default {
           isJoin: 0
         })
         .then(res => {
-          console.log(res)
           if (res.data.code === OK) {
             setTimeout(() => {
               this.$message({
                 message: '申请已发送',
                 type: 'success'
               })
-            }, 900);
-            this.isApplied = true; // 设置申请状态为已申请
+            }, 900)
+            this.isApplied.text = '申请成功' // 设置申请状态为已申请
+            this.isApplied.status = false
           } else {
             this.$message({
               message: res.data.message,
@@ -99,8 +113,10 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err);
-          this.$message.error('发送申请失败');
+          this.$message({
+            message: err,
+            type: 'error'
+          })
         })
     }
   },
@@ -108,6 +124,18 @@ export default {
     this.get();
     this.$store.dispatch('screen/setToFull');
     this.getApplyStatus(); // 获取申请状态
+  },
+  computed: {
+    imageUrls() {
+      return this.imageList.map(item => {
+        return {
+          src: `/fileServer/fileServer/${item.filePath}`
+        }
+      })
+    },
+    isFull() {
+      return this.$store.state.user.user
+    }
   },
   computed: {
     imageUrls() {
@@ -162,20 +190,6 @@ a.cc:visited {
 a.cc:hover {
   color: #ffcc00;
 }
-/* .background {
-  background-image: url('../../../res/1.png'), url('../../../res/2.png'),
-    url('../../../res/3.png'), url('../../../res/4.png'),
-    url('../../../res/5.png');
-
-  background-repeat: no-repeat;
-
-  background-size: cover, 234px 203px, 244px 300px, 310px 210px, 250px 150px;
-
-  background-position: center, left top, right bottom, left bottom, 600px 100px;
-
-  width: 100vw;
-  height: 100vh;
-} */
 
 .img {
   display: flex;
@@ -214,6 +228,7 @@ a.cc:hover {
 }
 
 .apply {
+  cursor: pointer;
   width: 269px;
   height: 68px;
   border-radius: 24px;

@@ -19,6 +19,7 @@ export default {};
   height: 75px;
   left: 200px;
   right: 0px;
+  z-index: 1000;
   bottom: 1px;
 }
 

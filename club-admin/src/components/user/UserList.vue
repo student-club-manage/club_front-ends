@@ -5,18 +5,18 @@
         <el-input
           placeholder="请输入用户名称"
           prefix-icon="el-icon-search"
-          v-model="userName"
+          v-model="userInfo.userName"
           class="input-with-select"
           width="120px"
         ></el-input>
       </el-form-item>
       <el-form-item label="用户类型">
-        <el-select v-model="roleId" placeholder="请选择用户类型">
+        <el-select v-model="userInfo.roleId" placeholder="请选择用户类型">
           <el-option label="所有" value=""></el-option>
           <el-option
             v-for="userType in userTypeList"
             :key="userType.id"
-            :label="userType.roleName"
+            :label="getRole(userType.id)"
             :value="userType.id"
           ></el-option>
         </el-select>
@@ -34,6 +34,12 @@
         >
           注册新用户
         </el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-refresh"
+          circle
+          @click="refresh"
+        />
       </el-form-item>
     </el-form>
     <el-table :data="userData" stripe style="width:100%" size="mini" border>
@@ -75,7 +81,7 @@
         :sortable="true"
       ></el-table-column>
       <el-table-column
-        prop="userType.roleName"
+        prop="roleId"
         label="角色"
         width="180"
         :sortable="true"
@@ -122,18 +128,32 @@ export default {
       userData: [],
       currentPage: 1,
       userSearch: {},
-      userName: null,
-      roleId: null,
+      userName: "",
+      roleId: "",
       userTypeList: [],
+      currentUsers: [],
+      userInfo: {
+        userName: "",
+        roleId: ""
+      },
       pageSize: this.GLOBAL.pageSize
     };
   },
   components: {},
   methods: {
+    getRole: function(type) {
+      switch (type) {
+        case 1:
+          return "超级管理员";
+        case 2:
+          return "社团负责人";
+        case 3:
+          return "社团助理";
+        default:
+          return "一般用户";
+      }
+    },
     getUserPage: function(pageNum, pageSize) {
-      // var typeId = this.$route.query.roleId;
-      // this.typeId = typeId;
-      // console.log("typeid:"+typeId);
       this.$axios
         .get("/api/users", {
           params: {
@@ -144,12 +164,18 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res.data.data);
           if (res.data.code == OK) {
             this.userPage = res.data.data;
             this.userData = this.userPage.list;
+
+            this.userPage.list.forEach(item => {
+              item.roleId = this.getRole(item.roleId);
+              item.lastLoginTime = item.lastLoginTime || "未知";
+              item.institute = item.institute || "未记录";
+            });
             this.pages = this.userPage.pages;
-            console.log(this.userData);
+            this.total = this.userPage.total;
+            this.currentPage = this.userPage.pageNum;
           } else {
             this.$message.error(res.data.data);
           }
@@ -168,7 +194,6 @@ export default {
       this.$axios.get("/api/userRoles").then(res => {
         if (res.data.code == OK) {
           this.userTypeList = res.data.data;
-          console.log("test:", res.data.data);
         } else {
           this.$message.error(res.data.data);
         }
@@ -176,7 +201,6 @@ export default {
     },
     editPage: function(row) {
       var id = row.id;
-      console.log(row.id);
       this.$router.push({ name: "EditUser", query: { id: id } });
     },
     addPage: function() {
@@ -197,11 +221,10 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.daleteDao(num);
-          this.getUserPage(this.currentPage, 8);
-        });
+      }).then(() => {
+        this.daleteDao(num);
+        this.getUserPage(this.currentPage, 8);
+      });
     },
     refreshuserPage: function() {
       this.currentPage = page;
@@ -212,12 +235,37 @@ export default {
       this.getUserPage(page, this.pageSize);
     },
     find: function() {
+      this.userInfo.userName = this.userInfo.userName || " ";
+      this.userInfo.roleId = this.userInfo.roleId || " ";
+      this.$axios
+        .get(
+          `/api/users/getByName_Role/${this.userInfo.userName}/${
+            this.userInfo.roleId
+          }`
+        )
+        .then(res => {
+          const {
+            status,
+            data: { data }
+          } = res;
+
+          console.log(res);
+
+          if (status === OK) {
+            this.userData = data;
+          } else {
+            this.$message.error("查询失败");
+          }
+        });
+    },
+    refresh: function() {
+      this.getuserTypeList();
       this.getUserPage(this.currentPage, 8);
     }
   },
   created() {
-    this.getUserPage(this.currentPage, 8);
     this.getuserTypeList();
+    this.getUserPage(this.currentPage, 8);
   },
   watch: {
     $route(to, from) {
