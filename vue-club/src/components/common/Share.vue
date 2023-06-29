@@ -94,11 +94,6 @@ export default {
 </script>
 
 <style>
-.share {
-  position: absolute;
-  bottom: 110px;
-  right: 320px;
-}
 .qqFriend {
   /* background:url(/static/share.jpg) ; */
 }

@@ -23,6 +23,9 @@
         </button>
       </div>
     </div>
+    <div class="fileLink">
+      where
+    </div>
   </div>
 </template>
 
@@ -123,6 +126,7 @@ export default {
   created() {
     this.get()
     this.$store.dispatch('screen/setToFull')
+    this.getApplyStatus() // 获取申请状态
   },
   computed: {
     imageUrls() {
@@ -229,5 +233,14 @@ a.cc:hover {
   position: fixed; /* 使用 fixed 定位 */
   bottom: 10px; /* 距离底部的距离，根据需要进行调整 */
   right: 10px; /* 距离右侧的距离，根据需要进行调整 */
+}
+
+.fileLink {
+  font-size: 19px;
+  font-family: Roboto;
+  font-weight: 600;
+  position: fixed; /* 使用 fixed 定位 */
+  bottom: 10px; /* 距离底部的距离，根据需要进行调整 */
+  left: 10px; /* 距离右侧的距离，根据需要进行调整 */
 }
 </style>

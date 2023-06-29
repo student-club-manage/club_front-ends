@@ -14,7 +14,7 @@
             >首页</router-link
           ></el-menu-item
         >
-        <el-submenu index="2" class="view-dL5R0iFd">
+        <!-- <el-submenu index="2" class="view-dL5R0iFd">
           <template slot="title">
             社团概况
           </template>
@@ -33,7 +33,7 @@
               >机构设置</router-link
             ></el-menu-item
           >
-        </el-submenu>
+        </el-submenu> -->
         <el-submenu index="3" class="view-dL5R0iFd">
           <template slot="title">
             社团快讯
@@ -129,12 +129,6 @@
           class="rightMenu"
           ><a href="#">注册</a></el-menu-item
         >
-        <el-menu-item
-          v-else-if="userInfo.roleId === 4"
-          index="8"
-          class="rightMenu"
-          ><i class="el-icon-edit">welcome</i></el-menu-item
-        >
 
         <el-menu-item
           @click="signIn"
@@ -143,6 +137,7 @@
           class="rightMenu"
           ><a href="#">登录</a></el-menu-item
         >
+
         <el-menu-item
           @click="signOut"
           v-if="isLogin"
@@ -180,6 +175,7 @@ export default {
       return user !== null
     },
     userInfo: function() {
+      console.log(this.$store.state.user.user)
       return this.$store.state.user.user || null
     }
   },
@@ -212,8 +208,7 @@ export default {
   },
   created: function() {
     this.getAdminUrl()
-  },
-  mounted: function() {}
+  }
 }
 </script>
 

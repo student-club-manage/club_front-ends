@@ -27,6 +27,17 @@
         ></el-option>
       </el-select>
     </el-form-item>
+
+    <!-- <el-form-item label="用户社团" prop="clubName">
+      <el-select v-model="selectedClubId" placeholder="请选择用户类型">
+        <el-option
+          v-for="clubType in clubTypeList"
+          :key="clubType.id"
+          :label="clubType.name"
+          :value="clubType.id"
+        ></el-option>
+      </el-select>
+    </el-form-item> -->
     <el-form-item>
       <el-button type="primary" @click="update">更新</el-button>
       <el-button @click="goBack">返回</el-button>
@@ -50,11 +61,13 @@ export default {
       imageUrl: "",
       fileList: [],
       file: { id: 0 },
-      roleId: 0
+      roleId: 0,
+      clubTypeList: [],
+      selectedClubId: null
     };
   },
   components: {
-    props: ["id"]
+    props: ["id", "clubName"]
   },
   methods: {
     get: function(id) {
@@ -70,6 +83,8 @@ export default {
       });
     },
     update: function() {
+      // this.user.clubId = this.selectedClubId;
+
       this.$axios
         .put("/api/users/", this.user)
         .then(res => {
@@ -103,18 +118,31 @@ export default {
     },
     goBack: function() {
       this.$router.back(-1);
+    },
+    getClubTypeList() {
+      this.$axios.get("/api/clubs/getall").then(res => {
+        if (res.data.code === OK) {
+          this.clubTypeList = res.data.data;
+          console.log("LIST:", res.data.data);
+          this.selectedClubId = this.clubName; // 初始化选定的社团ID
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
     }
   },
   created() {
     var id = this.$route.query.id;
     this.get(id);
     this.getuserTypeList();
+    this.getClubTypeList();
   },
   watch: {
     $route(to, from) {
       var id = this.$route.params.id;
       this.get(id);
       this.getuserTypeList();
+      this.getClubTypeList();
     }
   }
 };
