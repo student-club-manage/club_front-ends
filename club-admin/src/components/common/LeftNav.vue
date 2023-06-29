@@ -46,6 +46,11 @@
           >活动类型列表</router-link
         ></el-menu-item
       >
+      <el-menu-item index="2-4"
+        ><router-link :to="{ name: 'FeedBack' }" tag="div"
+          >评论列表</router-link
+        ></el-menu-item
+      >
     </el-submenu>
     <el-submenu index="3">
       <template slot="title">

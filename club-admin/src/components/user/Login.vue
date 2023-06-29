@@ -68,7 +68,7 @@ export default {
                     this.$message({
                       message: "登陆成功",
                       type: "success"
-                    })
+                    });
                   }, 900);
                   this.$router.push({ name: "Home" });
                 } else {

@@ -140,18 +140,6 @@ export default {
       return this.$store.state.user.user
     }
   },
-  computed: {
-    imageUrls() {
-      return this.imageList.map(item => {
-        return {
-          src: `/fileServer/fileServer/${item.filePath}`
-        }
-      })
-    },
-    isFull() {
-      return this.$store.state.user.user
-    }
-  },
   watch: {
     $route(to, from) {
       this.get()

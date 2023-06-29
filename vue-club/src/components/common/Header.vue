@@ -129,12 +129,6 @@
           class="rightMenu"
           ><a href="#">注册</a></el-menu-item
         >
-        <el-menu-item
-          v-else-if="userInfo.roleId === 4"
-          index="8"
-          class="rightMenu"
-          ><i class="el-icon-edit">welcome</i></el-menu-item
-        >
 
         <el-menu-item
           @click="signIn"
@@ -143,6 +137,7 @@
           class="rightMenu"
           ><a href="#">登录</a></el-menu-item
         >
+
         <el-menu-item
           @click="signOut"
           v-if="isLogin"
@@ -180,6 +175,7 @@ export default {
       return user !== null
     },
     userInfo: function() {
+      console.log(this.$store.state.user.user)
       return this.$store.state.user.user || null
     }
   },
@@ -212,8 +208,7 @@ export default {
   },
   created: function() {
     this.getAdminUrl()
-  },
-  mounted: function() {}
+  }
 }
 </script>
 
