@@ -7,7 +7,7 @@
     class="leftNav"
     :unique-opened="true"
   >
-    <el-submenu index="1">
+    <el-submenu index="1" v-show="userRole === 1">
       <template slot="title">
         文章管理
       </template>
@@ -36,7 +36,7 @@
           >活动列表</router-link
         ></el-menu-item
       >
-      <el-menu-item v-show="userRole !== 3" index="2-2"
+      <el-menu-item index="2-2"
         ><router-link :to="{ name: 'AddActivity' }" tag="div"
           >添加活动</router-link
         ></el-menu-item
@@ -77,7 +77,7 @@
         ></el-menu-item
       >
     </el-submenu>
-    <el-submenu v-show="userRole !== 3" index="4">
+    <el-submenu v-show="userRole === 1" index="4">
       <template slot="title">
         用户管理
       </template>
@@ -105,7 +105,7 @@
         ><router-link
           :to="{ name: 'FileList', query: { fileTypeId: 3 } }"
           tag="div"
-          >文档下载</router-link
+          >文件下载</router-link
         ></el-menu-item
       >
       <el-menu-item index="5-2"
@@ -123,7 +123,7 @@
         ></el-menu-item
       >
     </el-submenu>
-    <el-submenu index="6">
+    <el-submenu index="6" v-show="userRole === 1">
       <template slot="title">
         系统管理
       </template>

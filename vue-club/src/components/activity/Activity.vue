@@ -39,6 +39,9 @@
       </j-comment>
     </div>
     <Share />
+    <div class="fileLink">
+      where
+    </div>
   </div>
 </template>
 
@@ -94,8 +97,23 @@ export default {
                 this.commentDatas.push(obj)
               })
             })
+          this.getApplyStatus()
+          this.getFileLink(res.data.data.id)
         } else {
           this.$layer.alert(res.data.data)
+        }
+      })
+    },
+    getFileLink: function(id) {
+      this.$axios.get(`/api/files/get/?${id}`).then(res => {
+        console.log(res.data.data)
+        if (res.data.code === OK) {
+          console.log(res.data.data)
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
         }
       })
     },
@@ -271,5 +289,14 @@ export default {
   position: fixed; /* 使用 fixed 定位 */
   bottom: 150px; /* 距离底部的距离，根据需要进行调整 */
   right: 10px; /* 距离右侧的距离，根据需要进行调整 */
+}
+
+.fileLink {
+  font-size: 19px;
+  font-family: Roboto;
+  font-weight: 600;
+  position: fixed; /* 使用 fixed 定位 */
+  bottom: 150px; /* 距离底部的距离，根据需要进行调整 */
+  left: 10px; /* 距离右侧的距离，根据需要进行调整 */
 }
 </style>

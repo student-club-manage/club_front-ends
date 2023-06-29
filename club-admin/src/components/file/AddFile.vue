@@ -82,6 +82,7 @@
         ></el-option>
       </el-select>
     </el-form-item>
+    <el-form-item label="选择将要传输的类型"></el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
       <el-button @click="goBack">返回</el-button>

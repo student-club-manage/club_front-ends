@@ -14,7 +14,7 @@
             >首页</router-link
           ></el-menu-item
         >
-        <el-submenu index="2" class="view-dL5R0iFd">
+        <!-- <el-submenu index="2" class="view-dL5R0iFd">
           <template slot="title">
             社团概况
           </template>
@@ -33,7 +33,7 @@
               >机构设置</router-link
             ></el-menu-item
           >
-        </el-submenu>
+        </el-submenu> -->
         <el-submenu index="3" class="view-dL5R0iFd">
           <template slot="title">
             社团快讯
