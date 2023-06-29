@@ -27,7 +27,9 @@
     </div>
     <Share />
 
-    <button class="apply" @click="applyToActivity">申请加入</button>
+    <button class="apply" @click="applyToActivity" :disabled="!isApplied">
+      {{ isApplied ? '申请加入' : '已申请' }}
+    </button>
   </div>
 </template>
 
@@ -38,7 +40,8 @@ export default {
   data() {
     return {
       activity: {},
-      fileList: []
+      fileList: [],
+      isApplied: true
     }
   },
   components: { Share },
@@ -49,10 +52,30 @@ export default {
         if (res.data.code === OK) {
           this.activity = res.data.data
           this.fileList = this.activity.fileList
+          this.getApplyStatus()
         } else {
           this.$layer.alert(res.data.data)
         }
       })
+    },
+    getApplyStatus: function() {
+      // 从后端获取申请状态
+      this.$axios
+        .get(
+          `/other/clubMember/clubuser_id/${this.isFull.id}/${this.activity.id}`
+        )
+        .then(res => {
+          if (res.data.code === OK) {
+            const {
+              data: { data }
+            } = res
+            if (data.length > 0) {
+              this.isApplied = false
+            }
+          } else {
+            this.$layer.alert(res.data.data)
+          }
+        })
     },
     isImage: function(fileName) {
       var ext = fileName.substring(fileName.lastIndexOf('.') + 1)
@@ -62,7 +85,6 @@ export default {
       return false
     },
     applyToActivity: function() {
-      console.log(this.activity);
       // 发送申请请求到后端
       this.$axios
         .post('/other/clubMember/', {
@@ -71,7 +93,6 @@ export default {
           userId: this.isFull.id
         })
         .then(res => {
-          console.log(res)
           if (res.data.code === OK) {
             setTimeout(() => {
               this.$message({
@@ -79,7 +100,6 @@ export default {
                 type: 'success'
               })
             }, 900)
-            // this.$message.success('申请已发送');
           } else {
             this.$message({
               message: res.data.message,
@@ -88,8 +108,10 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
-          this.$message.error('发送申请失败')
+          this.$message({
+            message: err,
+            type: 'error'
+          })
         })
     }
   },
@@ -154,6 +176,7 @@ export default {
 }
 
 .apply {
+  cursor: pointer;
   width: 269px;
   height: 68px;
   border-radius: 24px;
