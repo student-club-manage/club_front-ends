@@ -151,6 +151,11 @@ export default new Router({
           component: resolve =>
             require(["@/components/file/HotActivities"], resolve)
         },
+        {
+          name: "FeedBack",
+          path: "feedback",
+          component: resolve => require(["../pages/feedBack"], resolve)
+        },
 
         {
           name: "AddUser",

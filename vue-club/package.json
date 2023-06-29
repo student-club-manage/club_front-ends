@@ -14,8 +14,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@jyeontu/jvuewheel": "^0.6.3",
     "axios": "^0.18.0",
     "element-ui": "^2.7.2",
+    "v-emoji-picker": "^2.3.3",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.4",
     "vue-layer": "^0.9.13",

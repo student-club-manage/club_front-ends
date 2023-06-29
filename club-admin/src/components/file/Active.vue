@@ -4,7 +4,7 @@
     <el-form-item>
       <el-upload
         class="upload-demo"
-        ref="upload1"
+        ref="upload"
         action="/api/files/upload"
         :on-change="handleChange"
         :file-list="fileList"
@@ -21,7 +21,7 @@
       <!-- ac -->
       <el-upload
         class="upload-demo"
-        ref="upload2"
+        ref="upload"
         action="/api/files/uploadImg?relativePath=/images/activity/"
         :on-change="handleChange"
         :file-list="fileList"
@@ -38,7 +38,7 @@
       <!-- club -->
       <el-upload
         class="upload-demo"
-        ref="upload3"
+        ref="upload"
         action="/api/files/uploadImg?relativePath=/images/club/"
         :on-change="handleChange"
         :file-list="fileList"
@@ -129,8 +129,6 @@ export default {
           this.$message.error("请选择社团");
         }
         this.type.value = 1;
-        this.$refs.upload3.submit();
-        return;
       }
 
       if (this.currentFileSort === 6) {
@@ -139,10 +137,8 @@ export default {
         }
 
         this.type.value = 2;
-        this.$refs.upload2.submit();
-        return;
       }
-      this.$refs.upload1.submit();
+      this.$refs.upload.submit();
     },
     getFileTypeList: function() {
       this.$axios.get("/api/fileTypes").then(res => {
@@ -167,7 +163,6 @@ export default {
         });
       }
       this.fileList = fileList.slice(-3);
-      console.log(file);
     }
   },
   created() {

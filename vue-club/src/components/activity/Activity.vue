@@ -11,8 +11,7 @@
         <span class="info">{{ activity.site }}</span>
       </div>
     </div>
-
-    <div v-html="activity.introduce" class="introduce"></div>
+    <div v-html="activity.introduce" class="introduce" />
 
     <div v-for="file in fileList" :key="file.id">
       <img
@@ -25,26 +24,44 @@
         file.fileName
       }}</a>
     </div>
-    <Share />
 
     <button class="apply" @click="applyToActivity" :disabled="!isApplied">
       {{ isApplied ? '申请加入' : '已申请' }}
     </button>
+
+    <div>
+      <j-comment
+        :key-map="keyMap"
+        :showNumber="2"
+        :comment-datas="commentDatas"
+        @submitComment="submitComment"
+      >
+      </j-comment>
+    </div>
+    <Share />
   </div>
 </template>
 
 <script>
 import Share from '@/components/common/Share.vue'
+import FeedBack from './FeedBack.vue'
 const OK = 200
 export default {
   data() {
     return {
       activity: {},
       fileList: [],
-      isApplied: true
+      isApplied: true,
+      code: '',
+      keyMap: {
+        pid: 'parent_comment_id',
+        id: 'id',
+        isAdmin: 'admin_comment'
+      },
+      commentDatas: []
     }
   },
-  components: { Share },
+  components: { Share, FeedBack },
   methods: {
     get: function() {
       var id = this.$route.params.id
@@ -52,7 +69,31 @@ export default {
         if (res.data.code === OK) {
           this.activity = res.data.data
           this.fileList = this.activity.fileList
-          this.getApplyStatus()
+
+          this.$axios
+            .get('/api/activityComment/get', {
+              params: {
+                id: null,
+                userId: null,
+                activityId: res.data.data.id
+              }
+            })
+            .then(res => {
+              const { data } = res.data
+              data.forEach(item => {
+                const obj = {
+                  id: item.id,
+                  admin_comment: 0,
+                  avatar: this.randomString(),
+                  create_time: item.createTime,
+                  email: '',
+                  nickname: 'ID: ' + item.userId,
+                  parent_comment_id: item.faNum === 0 ? null : item.faNum,
+                  content: item.comment
+                }
+                this.commentDatas.push(obj)
+              })
+            })
         } else {
           this.$layer.alert(res.data.data)
         }
@@ -113,6 +154,46 @@ export default {
             type: 'error'
           })
         })
+    },
+    submitComment(item) {
+      // console.log('item: ', item)
+      if (item.content === '') {
+        this.$message({
+          message: '评论内容不能为空',
+          type: 'warning'
+        })
+      } else {
+        this.$axios
+          .post(
+            `/api/activityComment/add?userId=${this.isFull.id}&activityId=${
+              this.activity.id
+            }&faNum=${item.pid === null ? 0 : item.pid}&comment=${item.content}`
+          )
+          .then(res => {
+            if (res.data.code === OK) {
+              this.$message({
+                message: '评论成功',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: res.data.data,
+                type: 'error'
+              })
+            }
+          })
+      }
+    },
+    randomString(len) {
+      len = len || 5
+      const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+      const maxPos = $chars.length
+      let pwd = ''
+      for (let i = 0; i < len; i++) {
+        pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
+      }
+
+      return `https://api.multiavatar.com/${pwd}.png`
     }
   },
   created() {
