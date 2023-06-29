@@ -137,9 +137,7 @@
           class="rightMenu"
           ><a href="#">登录</a></el-menu-item
         >
-        <el-menu-item v-if="userInfo.roleId !== 4" index="8" class="rightMenu"
-          ><i class="el-icon-edit">welcome</i></el-menu-item
-        >
+
         <el-menu-item
           @click="signOut"
           v-if="isLogin"
@@ -149,7 +147,7 @@
         >
         <el-menu-item
           @click="goAdminUrl"
-          v-if="userInfo.roleId === 4"
+          v-if="userInfo && userInfo.roleId !== 4"
           index="10"
           class="rightMenu"
           ><a href="#">进入后台</a></el-menu-item
@@ -177,6 +175,7 @@ export default {
       return user !== null
     },
     userInfo: function() {
+      console.log(this.$store.state.user.user)
       return this.$store.state.user.user || null
     }
   },
