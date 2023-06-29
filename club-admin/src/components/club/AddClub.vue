@@ -48,7 +48,7 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="add">添加</el-button>
-      <el-button>取消</el-button>
+      <el-button @click="goBack">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -157,7 +157,10 @@ export default {
     },
     onEditorChange() {
       //内容改变事件
-    }
+    },
+    goBack: function() {
+      this.$router.back(-1);
+    },
   },
   created() {
     this.getClubTypeList();

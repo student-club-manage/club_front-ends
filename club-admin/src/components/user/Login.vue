@@ -53,10 +53,28 @@ export default {
         .post("/api/users/login", this.user)
         .then(res => {
           if (res.data.code == OK) {
-            this.$message.success("登录成功");
             this.$cookies.set("token", res.data.data, 60 * 300);
             this.token = res.data.data;
-            this.$router.push({ name: "Home" });
+            this.$axios
+              .get("/api/users/getUser", {
+                params: {
+                  token: this.token
+                }
+              })
+              .then(res => {
+                this.userRole = res.data.data.roleId;
+                if (this.userRole !== 4) {
+                  setTimeout(() => {
+                    this.$message({
+                      message: "登陆成功",
+                      type: "success"
+                    })
+                  }, 900);
+                  this.$router.push({ name: "Home" });
+                } else {
+                  this.$message.error("您没有权限访问后台噢~");
+                }
+              });
           } else {
             this.$message.error(res.data.message);
             this.refreshCode();

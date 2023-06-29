@@ -86,6 +86,12 @@
         width="180"
         :sortable="true"
       ></el-table-column>
+      <el-table-column
+        prop="clubName"
+        label="社团"
+        width="180"
+        :sortable="true"
+      ></el-table-column>
       <el-table-column fixed="right" label="操作" width="270">
         <template slot-scope="scope">
           <el-button
@@ -136,7 +142,8 @@ export default {
         userName: "",
         roleId: ""
       },
-      pageSize: this.GLOBAL.pageSize
+      pageSize: this.GLOBAL.pageSize,
+      clubUserList: []
     };
   },
   components: {},
@@ -160,7 +167,8 @@ export default {
             pageNum: pageNum,
             pageSize: pageSize,
             roleId: this.roleId,
-            userName: this.userName // 添加 userName 到请求参数
+            userName: this.userName, // 添加 userName 到请求参数
+            clubName: this.clubName
           }
         })
         .then(res => {
@@ -169,9 +177,28 @@ export default {
             this.userData = this.userPage.list;
 
             this.userPage.list.forEach(item => {
+              console.log(item);
               item.roleId = this.getRole(item.roleId);
               item.lastLoginTime = item.lastLoginTime || "未知";
               item.institute = item.institute || "未记录";
+
+              this.$axios.get(`/api/clubApply/userid/${item.id}`).then(res => {
+                if (res.data.code === OK) {
+                  this.clubUserList = res.data.data;
+
+                  res.data.data.forEach(it => {
+                    this.$axios.get(`/api/clubs/${it.clubId}`).then(tmp => {
+                      if (tmp.data.code === OK) {
+                        item.clubName = tmp.data.data.name || "未进入社团";
+                      } else {
+                        this.$message.error(tmp.data.data);
+                      }
+                    });
+                  });
+                } else {
+                  this.$message.error(res.data.data);
+                }
+              });
             });
             this.pages = this.userPage.pages;
             this.total = this.userPage.total;
@@ -190,7 +217,7 @@ export default {
         }
       });
     },
-    getuserTypeList: function() {
+    getuserTypeList: function(id) {
       this.$axios.get("/api/userRoles").then(res => {
         if (res.data.code == OK) {
           this.userTypeList = res.data.data;
@@ -199,9 +226,61 @@ export default {
         }
       });
     },
+    getClubNameByUserId: async function(id) {
+      await this.$axios.get(`/api/clubApply/userid/${id}`).then(res => {
+        if (res.data.code === OK) {
+          this.clubUserList = res.data.data;
+          const clubName = "";
+
+          res.data.data.forEach(item => {
+            const id = item.clubId;
+            this.$axios.get(`/api/clubs/${id}`).then(tmp => {
+              if (tmp.data.code === OK) {
+                this.clubName = tmp.data.data.name;
+                console.log("clubName:", tmp.data.data.name);
+              } else {
+                this.$message.error(tmp.data.data);
+              }
+            });
+          });
+          return clubName;
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
+    },
+    getClubNameByUserId: async function(id) {
+      await this.$axios.get(`/api/clubApply/userid/${id}`).then(res => {
+        if (res.data.code === OK) {
+          this.clubUserList = res.data.data;
+
+          res.data.data.forEach(item => {
+            const id = item.clubId;
+            this.$axios.get(`/api/clubs/${id}`).then(tmp => {
+              if (tmp.data.code === OK) {
+                this.clubName = tmp.data.data.name;
+                console.log("clubName:", this.clubName);
+              } else {
+                this.$message.error(tmp.data.data);
+              }
+            });
+          });
+          // return res.data.data.clubName;
+        } else {
+          this.$message.error(res.data.data);
+        }
+      });
+    },
     editPage: function(row) {
       var id = row.id;
-      this.$router.push({ name: "EditUser", query: { id: id } });
+      this.getClubNameByUserId(id);
+      this.$router.push({
+        name: "EditUser",
+        query: {
+          id: id,
+          clubName: this.clubName
+        }
+      });
     },
     addPage: function() {
       this.$router.push({ name: "AddUser" });
@@ -266,12 +345,6 @@ export default {
   created() {
     this.getuserTypeList();
     this.getUserPage(this.currentPage, 8);
-  },
-  watch: {
-    $route(to, from) {
-      this.getUserPage(this.currentPage, 8);
-      this.getuserTypeList();
-    }
   }
 };
 </script>
